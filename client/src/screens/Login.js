@@ -61,7 +61,7 @@ console.log(session)
 
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-          <View  style={styles.form}>
+          <View style={styles.form}>
             <Text>{session && session.username}</Text>
               <FormTextInput
                   value={username}
