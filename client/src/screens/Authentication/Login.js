@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, Image, View, ScrollView,ActivityIndicator, AsyncStorage, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
-import strings from '../config/strings';
-import Button from "../components/elements/Button";
-import FormTextInput from "../components/elements/FormTextInput"
-import colors from "../config/colors"
-import imageLogo from '../assets/images/logo-black.png';
+import strings from '../../config/strings';
+import Button from "../../components/elements/Button";
+import FormTextInput from "../../components/elements/FormTextInput"
+import colors from "../../config/colors"
+import imageLogo from '../../assets/images/logo-black.png';
 import { withNavigation } from 'react-navigation';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { UserContext } from '../context';
+import { UserContext } from '../../context';
 
 
 
@@ -25,7 +25,7 @@ const LOGIN = gql`
 
 
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [session, setSession] = useState(useContext(UserContext));
@@ -34,7 +34,8 @@ console.log(session)
 
   useEffect(() => {
     console.log('session updated lets navigate')
-
+    
+    session && session.token && navigation.navigate('Details')
   }, [session]); 
 
   const handleUsernameChange = (input) => {
@@ -59,21 +60,25 @@ console.log(session)
     }
   }
 
+  const handleNewUser = () => {
+    navigation.navigate('Register')
+  }
+
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
           <View style={styles.form}>
-            <Text>{session && session.username}</Text>
-              <FormTextInput
-                  value={username}
-                  onChangeText={handleUsernameChange}
-                  placeholder={strings.USERNAME_PLACEHOLDER}
-              />
-              <FormTextInput
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  placeholder={strings.PASSWORD_PLACEHOLDER}
-              />
-              <Button label={strings.LOGIN} onPress={handleLoginPress} />
+            <FormTextInput
+                value={username}
+                onChangeText={handleUsernameChange}
+                placeholder={strings.USERNAME_PLACEHOLDER}
+            />
+            <FormTextInput
+                value={password}
+                onChangeText={handlePasswordChange}
+                placeholder={strings.PASSWORD_PLACEHOLDER}
+            />
+            <Button label={strings.LOGIN} onPress={handleLoginPress} />
+            <Button label="New User" onPress={handleNewUser} />
           </View>
       </KeyboardAvoidingView>
   )
