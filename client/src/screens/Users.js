@@ -14,10 +14,8 @@ const GET_USERS = gql`
 
 const Users = () => {
   const { loading, error, data } = useQuery(GET_USERS);
-  console.log("RUNNING QUERY")
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
-  console.log(data)
   return data.users.map(user => {
     return (
       <View style={styles.new}>

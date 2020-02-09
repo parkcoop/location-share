@@ -8,17 +8,19 @@ import colors from "../../config/colors"
 import moment from 'moment';
 
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 
-const MyTrips = ({ navigation }) => {
+const Profile = ({ navigation }) => {
+    const user = useContext(UserContext)
+
     const loadTrips = () => {
       navigation.navigate('NewTrip')
     }
 
 
-    const ProfileModal = () => {
+
+    const ProfileModal = ({ user }) => {
+      console.log('in profile', user)
         return (
             <View style={styles.myProfile}>
                 <Avatar
@@ -27,19 +29,18 @@ const MyTrips = ({ navigation }) => {
                     containerStyle={styles.avatar}
                     showEditButton
                     source={{
-                    uri:
-                        'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+                      uri: user.avatar
                     }}
                 />
                 <Text style={styles.text}>
-                    Parker Cooper
+                    {user.fullName}
                 </Text>
             </View>
         )
     }
 
 
-    const TripList = () => {
+    const TripList = ({ user }) => {
         return (
             <View style={styles.myTrips}>
                 <Text style={styles.text}>
@@ -69,7 +70,7 @@ const MyTrips = ({ navigation }) => {
         )
     }
 
-    const SuggestedPlaces = () => {
+    const SuggestedPlaces = ({ user }) => {
         return (
             <View style={styles.myTrips}>
                 <Text style={styles.text}>
@@ -89,12 +90,18 @@ const MyTrips = ({ navigation }) => {
     }
 
     return (
-        <React.Fragment>
-            <ProfileModal />
-            <TripList />
-            <SuggestedPlaces />
-        </React.Fragment>
-        )
+    <View>
+      <ProfileModal 
+        user={user}
+      />
+      <TripList 
+        user={user}
+      />
+      <SuggestedPlaces
+        user={user} 
+      />
+    </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -154,5 +161,5 @@ const styles = StyleSheet.create({
   })
     
 
-export default MyTrips;
+export default Profile;
   

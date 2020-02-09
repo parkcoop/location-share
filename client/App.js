@@ -1,20 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, {useReducer, useEffect} from 'react';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import Users from './src/screens/Users'
-import Login from './src/screens/Authentication/Login'
-import MyTrips from './src/screens/Trips'
+import Profile from './src/screens/Trips'
 import Authentication from './src/screens/Authentication'
-import { UserContext } from './src/context'
+import { UserContext, AuthContext } from './src/context'
+
+import FlashMessage from "react-native-flash-message";
 
 
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-const Stack = createStackNavigator();
+
+const RootStack = createStackNavigator();
 
 
 const client = new ApolloClient(
@@ -28,82 +28,52 @@ const client = new ApolloClient(
     cache: new InMemoryCache()
   })
 
-  function HomeScreen({ navigation }) {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('Details')}
-        />
-      </View>
-    );
-  }
-  
-
-  function DetailsScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-      </View>
-    );
-  }
 
 export default function App() {
+
+  const [user, dispatch] = useReducer(
+    (prevState, action) => {
+      switch(action.type) {
+        case 'LOGIN':
+          return action.user
+          
+        case 'LOGOUT':
+          return {}
+      }
+    
+    }
+  );
+
+
+
+
   return (
     <ApolloProvider client={client}>
-      <UserContext.Provider value={{token:'', username: ''}}>
-
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Authentication">
-            <Stack.Screen 
-              name="Home" 
-              component={Login} 
-              options={{
-                title: "Parker"
-              }}
-            />
-            <Stack.Screen 
-              name="Authentication" 
-              component={Authentication} 
-              options={{
-                title: "Authentication"
-              }}
-            />
-            <Stack.Screen 
-              name="Details" 
-              component={MyTrips} 
-              options={{
-                title: "Parker"
-              }}
-            />
-          </Stack.Navigator>
-          {/* <View>
-            <Users></Users>
-            <Login></Login>
-            <Text>Hello</Text>
-          </View> */}
-        </NavigationContainer>
-      </UserContext.Provider>
+      <AuthContext.Provider value={dispatch}>
+        <UserContext.Provider value={user}>
+          <NavigationContainer>
+            <RootStack.Navigator initialRouteName="Authentication">
+              <RootStack.Screen 
+                name="Authentication" 
+                component={Authentication} 
+                options={{
+                  title: "Authentication",
+                  headerShown: false,
+                }}
+              />
+              <RootStack.Screen 
+                name="Details" 
+                component={Profile} 
+                options={{
+                  title: "Parker",
+                  headerShown: false
+                }}
+              />
+            </RootStack.Navigator>
+          </NavigationContainer>
+        </UserContext.Provider>
+      </AuthContext.Provider>
+      <FlashMessage position="top" /> 
     </ApolloProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  new: {
-    backgroundColor: 'black',
-    height: '50px',
-    width: '100%'
-  },
-  text: {
-    color: 'white',
-
-  }
-
-});

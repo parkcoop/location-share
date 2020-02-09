@@ -1,37 +1,51 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { APP_SECRET } = require('../utils')
-const User = require('./User')
+const User = require('./schemas/User')
+const { signupLog } = require('../utils/loggers')
+
 
 const signup = async (_, args) => {
     try {
-        const password = await bcrypt.hash(args.password, 10)
-        const userCheck = await User.find({username:args.username})
-        if (userCheck.length) return new Error('User already exists')
+        if (!args.username || !args.fullName || !args.password) return new Error('Missing required paramaters.')
+        const encryptedPassword = await bcrypt.hash(args.password, 10)
+        const userCheck = await User.find({ username:args.username }, 
+            (error, users) => {
+                if (error) throw new Error('Internal error finding user.')
+                console.log('Existing user: ', users)
+                return users
+        })
+            
+        if (userCheck.length) return new Error(`The username "${args.username}" is already in use.`)
         const newUser = new User({
             username: args.username,
-            password: password
+            password: encryptedPassword,
+            fullName: args.fullName
         })
-        newUser.save();
-        const token = jwt.sign({userId: newUser.id}, APP_SECRET)
+        newUser.save()
+        const token = jwt.sign({userId: newUser.id}, process.env.APP_SECRET)
         return {
             token,
             user: newUser
         }
     }
     catch(err) {
-        console.log(err)
+        signupLog.log({
+            level: 'info',
+            message: "There was an error during a user's registration.",
+            additional: err.message,
+            stack: err.stack
+        });
     }
 }
 
 const login = async (_, args) => {
     console.log(_, args)
     try {
-        const user = await User.findOne({username:args.username});
-        if (!user) return new Error('No user found');
+        const user = await User.findOne({username:args.username})
+        if (!user) return new Error('No user found')
         const valid = await bcrypt.compare(args.password, user.password)
         if (valid) {
-            const token = jwt.sign({userId:user.id}, APP_SECRET)
+            const token = jwt.sign({userId:user.id}, process.env.APP_SECRET)
             return {
                 token,
                 user,

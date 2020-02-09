@@ -1,4 +1,4 @@
-const User = require('./User')
+const User = require('./schemas/User')
 
 
 const users = () => User.find({}, (error, users) => {

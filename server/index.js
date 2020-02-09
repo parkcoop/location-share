@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
-const User = require('./resolvers/User')
 
-const PORT = 4000;
 const { GraphQLServer } = require('graphql-yoga')
 
 require('dotenv').config()

@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const User = new Schema({
-    username: {
+const Language = new Schema({
+    name: {
         type: String,
         required: true
     },
-    password: {
+    nativeName: {
         type: String,
         required: true
     },
+    iso: {
+        type: String,
+        required: true
+    }
 })
 
-module.exports = mongoose.model("User", User)
+module.exports = mongoose.model("Language", Language)

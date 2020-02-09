@@ -1,11 +1,39 @@
+scalar Date
+
 type Query {
     users: [User!]!
     getUser(id: String): User!
+    # getCities: [City]!
+    # getTrips(id: String): [Trip]!
 }
 
 type Mutation {
-    signup(username: String!, password: String!): AuthPayload
-    login(username: String!, password: String!): AuthPayload
+    signup(
+        username: String!, 
+        password: String!, 
+        fullName: String! 
+    ): AuthPayload
+
+    login(
+        username: String!, 
+        password: String!
+    ): AuthPayload
+
+    # editUserDetails(
+    #     username: String!,
+    #     fullName: String,
+    #     avatar: String,
+    #     email: String,
+    #     phone: String,
+    #     location: Location,
+    #     language: Language
+    # ): String
+
+    addTrip(
+        user: String!,
+        trip: Date
+    ): Trip
+
 }
 
 type AuthPayload {
@@ -16,6 +44,62 @@ type AuthPayload {
 type User {
     username: String!
     password: String!
+    fullName: String!
+    avatar: String!
+    email: String
+    phone: String
+    location: Location!
+    language: Language!
+    trips: [Trip!]
+    friends: [User!]
+    wishTrips: [Trip!]
+    interests: [String!]
+}
+
+type Country {
+    name: String!
+    capital: String!
+    borders: [Country!]
+    languages: [Language!]
+    currencies: [Currency!]
+}
+
+type Location {
+    city: String!
+    subCountry: String
+    country: Country!
+}
+
+type Language {
+    name: String!
+    nativeName: String!
+    iso: String!
+}
+
+type Currency {
+    name: String!
+    pluralName: String!
+    symbol: String!
+    code: String!
+}
+
+type Event {
+    startDate: Date!
+    endDate: Date
+    location: Location!
+    name: String!
+    description: String
+}
+
+type Trip {
+    startDate: Date!
+    endDate: Date
+    locations: [Location!]!
+    people: [User!]
+    events: [Event!]
+    name: String
+    description: String
+    creator: User!
 }
 
 schema {

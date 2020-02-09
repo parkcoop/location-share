@@ -1,0 +1,15 @@
+{"level":"info","message":{"username":"ss","password":"ss","fullName":"ss"},"additional":"properties","are":"passed along","service":"your-service-name","timestamp":"2020-02-08 17:07:41"}
+{"level":"info","message":{"username":"s","password":"s","fullName":"sss"},"additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:13:19"}
+{"level":"info","message":{"username":"njn","password":"lol","fullName":"dnqnndq"},"additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:13:37"}
+{"level":"error","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:21:01"}
+{"level":"error","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:21:41"}
+{"level":"error","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:21:41"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:22:01"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:22:05"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:23:18"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:23:20"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:23:50"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"properties","are":"passed along","service":"SIGNUP","timestamp":"2020-02-08 17:23:52"}
+{"level":"info","message":"There was an error during a user's registration.","additional":"User already exists","stack":"Error: User already exists\n    at signup (/Users/pc/Desktop/travelers-app/server/resolvers/Mutation.js:15:37)\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)","service":"SIGNUP","timestamp":"2020-02-08 17:26:17"}
+{"level":"info","message":"There was an error during a user's registration.","service":"SIGNUP","timestamp":"2020-02-08 17:28:07"}
+{"level":"info","message":"There was an error during a user's registration.","service":"SIGNUP","timestamp":"2020-02-08 17:29:42"}

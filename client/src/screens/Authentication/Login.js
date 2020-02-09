@@ -1,42 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, Image, View, ScrollView,ActivityIndicator, AsyncStorage, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import strings from '../../config/strings';
 import Button from "../../components/elements/Button";
 import FormTextInput from "../../components/elements/FormTextInput"
 import colors from "../../config/colors"
-import imageLogo from '../../assets/images/logo-black.png';
-import { withNavigation } from 'react-navigation';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import { UserContext } from '../../context';
 
 
-
-const LOGIN = gql`
-  mutation Login($username: String!, $password: String!) {
-    login(username:$username,password:$password) {
-        user {
-          username
-        }
-        token
-    }
-  }
-`;
-
-
-
-const Login = ({ navigation }) => {
+const Login = ({ navigation, route }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [session, setSession] = useState(useContext(UserContext));
-console.log(session)
-  const [login, { loading, error, data }] = useMutation(LOGIN);
-
-  useEffect(() => {
-    console.log('session updated lets navigate')
-    
-    session && session.token && navigation.navigate('Details')
-  }, [session]); 
+  const { signIn } = useContext(AuthContext);
 
   const handleUsernameChange = (input) => {
       setUsername(input)
@@ -46,24 +20,7 @@ console.log(session)
       setPassword(input)
   }
 
-  const handleLoginPress = async () => {
-    try {
-      const authPayload = await login({variables: {username, password}})
-
-      // if (!loading) {
-        console.log('lol', authPayload)
-        setSession({token: authPayload.data.login.token, username: authPayload.data.login.user.username})
-      // }
-    }
-    catch(err) {
-      console.log(err)
-    }
-  }
-
-  const handleNewUser = () => {
-    navigation.navigate('Register')
-  }
-
+  
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
           <View style={styles.form}>
@@ -77,8 +34,8 @@ console.log(session)
                 onChangeText={handlePasswordChange}
                 placeholder={strings.PASSWORD_PLACEHOLDER}
             />
-            <Button label={strings.LOGIN} onPress={handleLoginPress} />
-            <Button label="New User" onPress={handleNewUser} />
+            <Button label={strings.LOGIN} onPress={() => signIn(username, password)} />
+            <Button label="New User" onPress={route.params?.handleNewUser} />
           </View>
       </KeyboardAvoidingView>
   )
