@@ -1,17 +1,11 @@
-import { UserContext } from '../../context';
 
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, FlatList, View, ScrollView,ActivityIndicator, AsyncStorage, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
-import strings from '../../config/strings';
-import { Button, Avatar } from 'react-native-elements';
-import colors from "../../config/colors"
-import moment from 'moment';
-
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
+import strings from '../../config/strings';
+import colors from "../../config/colors"
 import FormTextInput from '../../components/elements/FormTextInput';
-const MyTripStack = createStackNavigator();
 
 
 const NewTrip = ({ navigation }) => {

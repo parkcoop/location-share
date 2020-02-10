@@ -1,18 +1,16 @@
-import React, {useReducer, useEffect} from 'react';
+import React, { useReducer } from 'react';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import Profile from './src/screens/Trips'
-import Authentication from './src/screens/Authentication'
-import { UserContext, AuthContext } from './src/context'
-
 import FlashMessage from "react-native-flash-message";
-
-
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { UserContext, AuthContext } from './src/context'
+import Home from './src/screens/Home'
+import Authentication from './src/screens/Authentication'
 
 const RootStack = createStackNavigator();
 
@@ -63,7 +61,7 @@ export default function App() {
               />
               <RootStack.Screen 
                 name="Details" 
-                component={Profile} 
+                component={Home} 
                 options={{
                   title: "Parker",
                   headerShown: false

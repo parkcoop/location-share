@@ -1,15 +1,16 @@
 import React, { useContext, useMemo } from 'react';
-import { AuthContext } from '../../context';
 import Login from './Login'
-import Register from './Register'
-import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useMutation } from '@apollo/react-hooks';
+import 'react-native-gesture-handler';
+
+import { AuthContext } from '../../context';
 import notify from '../../utils'
 import auth from '../../utils'
+import Register from './Register'
+
 
 const AuthStack = createStackNavigator();
-
 
 const Authentication = ({ navigation }) => {
   const [login, { loading }] = useMutation(auth.LOGIN);
@@ -28,7 +29,6 @@ const Authentication = ({ navigation }) => {
           if (!loading) {
             const { token } = authPayload.data.login;
             const user = authPayload.data.login.user;
-
             dispatch({
               user: {
                 ...user,
@@ -38,11 +38,9 @@ const Authentication = ({ navigation }) => {
             })
             notify.success('LOGIN', `Welcome to Travelers, ${user.username}`)
             navigation.navigate('Details')
-
           }
         }
         catch(err) {
-          console.log(err)
           notify.error('LOGIN', err.message)
         }
       },
@@ -51,7 +49,7 @@ const Authentication = ({ navigation }) => {
       
       signUp: async (username, password, fullName) => {
         try {
-          if (!username || !password || !fullName) throw new Error("no")
+          if (!username || !password || !fullName) throw new Error("Please enter all required fields.")
           const authPayload = await signup({variables: {username, password, fullName}})
           if (!signupLoading && authPayload) {
             const newUser = authPayload.data.signup?.user
@@ -61,7 +59,6 @@ const Authentication = ({ navigation }) => {
           }
         }
         catch(err) {
-          console.log(err)
           notify.error('SIGNUP', err.message)
         }
 

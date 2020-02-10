@@ -8,7 +8,13 @@ const { GraphQLServer } = require('graphql-yoga')
 
 require('dotenv').config()
 
-mongoose.connect(process.env.CONNECT_STRING, {useNewUrlParser: true}, (error) => {
+mongoose.connect(
+  process.env.CONNECT_STRING, 
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, 
+  (error) => {
     if(error) console.log('Failed to connect to database, y tho:', error);
 });
 
@@ -25,4 +31,4 @@ const server = new GraphQLServer({
     context: req => ({ ...req })
   })
 
-  server.start(()=> console.log('Listening on http://localhost:4000'))
+  server.start(()=> console.log('Travelers API listening on http://localhost:4000'))

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../context';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
-import strings from '../../config/strings';
-import Button from "../../components/elements/Button";
-import FormTextInput from "../../components/elements/FormTextInput"
-import colors from "../../config/colors"
+import { StyleSheet, View, KeyboardAvoidingView, Image} from 'react-native';
 
+import { AuthContext } from '../../context';
+import strings from '../../config/strings';
+import { FormTextInput, Button } from "../../components/elements";
+import colors from "../../config/colors"
+import airplane from '../../assets/images/airplane.png'
 
 const Login = ({ navigation, route }) => {
   const [username, setUsername] = useState('');
@@ -20,9 +20,10 @@ const Login = ({ navigation, route }) => {
       setPassword(input)
   }
 
-  
+
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+          <Image source={airplane}></Image>
           <View style={styles.form}>
             <FormTextInput
                 value={username}

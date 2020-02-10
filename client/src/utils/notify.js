@@ -7,15 +7,16 @@ const success = ( type, message ) => {
         message: "Success",
         description: message,
         type: "success",
+        icon: "success",
         backgroundColor: colors.NAVY
     }
     switch(type) {
         case 'LOGIN': 
-            showMessage({
+            return showMessage({
                 ...successBody
             });
         case 'SIGNUP': 
-            showMessage({
+            return showMessage({
                 ...successBody
             });
     }
@@ -26,17 +27,18 @@ const error = ( type, message ) => {
     const errorBody = {
         description: message.split('error: ')[1] || message,
         type: "error",
+        icon: "warning",
         backgroundColor: colors.RED
         
     }
     switch(type) {
         case 'LOGIN': 
-            showMessage({
+            return showMessage({
                 ...errorBody,
                 message: "There was an error signing in."
             });
         case 'SIGNUP': 
-            showMessage({
+            return showMessage({
                 ...errorBody,
                 message: "Registration Error"
             });

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch server --watch package.json server/index.js"
+    "start": "nodemon --watch server --watch package.json server/index.js",
+    "dev": "concurrently 'npm start' 'npm start -prefix ./client'"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "nodemon": "^2.0.2"
   }
 }

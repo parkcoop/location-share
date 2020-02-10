@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context';
 
-import { StyleSheet, Image, View, ScrollView,ActivityIndicator, AsyncStorage, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import strings from '../../config/strings';
-import Button from "../../components/elements/Button";
-import FormTextInput from "../../components/elements/FormTextInput"
+import { Button, FormTextInput} from "../../components/elements";
 import colors from "../../config/colors"
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 
 const Login = ({ navigation }) => {
