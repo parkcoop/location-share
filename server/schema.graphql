@@ -30,9 +30,15 @@ type Mutation {
     # ): String
 
     addTrip(
-        user: String!,
-        trip: Date
-    ): Trip
+        startDate: Int!
+        endDate: Int
+        locations: [String!]!
+        people: [String!]
+        # events: [Event!]
+        name: String
+        description: String
+        creator: String!
+    ): String!
 
 }
 
@@ -48,7 +54,7 @@ type User {
     avatar: String!
     email: String
     phone: String
-    location: Location!
+    location: City!
     language: Language!
     trips: [Trip!]
     friends: [User!]
@@ -64,10 +70,12 @@ type Country {
     currencies: [Currency!]
 }
 
-type Location {
-    city: String!
+type City {
+    name: String!
     subCountry: String
-    country: Country!
+    country: Country
+    iso3: String!
+    isCapital: Boolean!
 }
 
 type Language {
@@ -86,20 +94,20 @@ type Currency {
 type Event {
     startDate: Date!
     endDate: Date
-    location: Location!
+    location: City!
     name: String!
     description: String
 }
 
 type Trip {
-    startDate: Date!
-    endDate: Date
-    locations: [Location!]!
-    people: [User!]
-    events: [Event!]
-    name: String
+    startDate: String!
+    endDate: String
+    locations: [City]!
+    people: [User]
+    events: [Event]
+    name: String!
     description: String
-    creator: User!
+    creator: String
 }
 
 schema {

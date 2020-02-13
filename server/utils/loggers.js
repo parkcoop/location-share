@@ -13,10 +13,6 @@ const signupLog = createLogger({
     ),
     defaultMeta: { service: 'SIGNUP' },
     transports: [
-      //
-      // - Write to all logs with level `info` and below to `quick-start-combined.log`.
-      // - Write all logs error (and below) to `quick-start-error.log`.
-      //
       new transports.File({ filename: 'quick-start-error.log', level: 'error' }),
       new transports.File({ filename: 'quick-start-combined.log' })
     ]
