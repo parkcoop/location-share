@@ -30,7 +30,7 @@ const LOGIN = gql`
             startDate
             endDate
             locations {
-                city
+                name
             }
             }
             friends {
@@ -39,10 +39,7 @@ const LOGIN = gql`
             }
             wishTrips {
             locations {
-                city
-                country {
                 name
-                }
             }
             }
             interests

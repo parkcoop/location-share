@@ -1,14 +1,58 @@
 
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import 'react-native-gesture-handler';
+import { useMutation } from '@apollo/react-hooks';
 
 import strings from '../../config/strings';
 import colors from "../../config/colors"
 import FormTextInput from '../../components/elements/FormTextInput';
+import gql from 'graphql-tag';
+
+const ADD_TRIP = gql`
+    mutation AddTrip(
+        $startDate:     Int!,
+        $endDate:       Int,
+        $locations:     [String!]!,
+        $name:          String,
+        $description:   String,
+        $creator:       String!
+    ) {
+    signup(
+        startDate:      $startDate, 
+        endDate:        $endDate, 
+        locations:      $locations,
+        name:           $name, 
+        description:    $description, 
+        creator:        $creator
+        ) {
+        trip {
+            startDate
+            endDate
+            locations
+            #people
+            #events
+            name
+            description
+            creator
+        }
+    }
+    }
+`;
 
 
 const NewTrip = ({ navigation }) => {
+    const [savedTrip, { loading }] = useMutation(ADD_TRIP)
+
+    const [trip, setTrip] = useState({});
+    const handleInput = (evt) => {
+        trip[evt.target.name] = evt.target.value
+        setTrip({
+            ...trip
+        })
+        console.log(trip)
+    }
+
     return (
         <React.Fragment>
             <View style={styles.container}>
@@ -18,6 +62,32 @@ const NewTrip = ({ navigation }) => {
                 <View style={styles.formContainer}>
                     <View>
                         <Text style={textStyles.heading}>
+                            Title
+                        </Text>
+                    </View>
+                    <View>
+                        <FormTextInput 
+                            style={formStyles.full}
+                            placeholder="Name of trip"
+                            onChange={handleInput}
+                            name="title"
+                        />
+                    </View>
+                    <View>
+                        <Text style={textStyles.heading}>
+                          description?
+                        </Text>
+                    </View>
+                    <View>
+                        <FormTextInput 
+                            style={formStyles.full}
+                            placeholder={strings.LOCATION_SEARCH_PLACEHOLDER}
+                            onChange={handleInput}
+                            name="description"
+                        />
+                    </View>
+                    <View>
+                        <Text style={textStyles.heading}>
                             where to?
                         </Text>
                     </View>
@@ -25,14 +95,20 @@ const NewTrip = ({ navigation }) => {
                         <FormTextInput 
                             style={formStyles.full}
                             placeholder={strings.LOCATION_SEARCH_PLACEHOLDER}
+                            onChange={handleInput}
+                            name="location"
                         />
                     </View>
                     <View style={formStyles.doubleContainer}>
                         <FormTextInput 
                             style={formStyles.half}
+                            onChange={handleInput}
+                            name="startDate"
                         />
                         <FormTextInput 
                             style={formStyles.half}
+                            name="dd"
+                            onChange={handleInput}
                         />
                     </View>
                 </View>
