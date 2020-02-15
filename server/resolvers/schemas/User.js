@@ -8,7 +8,6 @@ const defaultValues = {
         name: "English",
         nativeName: "English"
     }
-
     
 }
 
@@ -46,10 +45,6 @@ const User = new Schema({
         type: Object,
         required: false,
         default: defaultValues.language
-    },
-    trips: {
-        type: Array,
-        required: false
     },
     friends: {
         type: Array,

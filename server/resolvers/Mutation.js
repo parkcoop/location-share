@@ -6,22 +6,22 @@ const { User, City, Trip } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
 const { asyncForEach } = require('../utils/services');
 
-const signup = async (_, args) => {
+const signup = async (_, { username, fullName, password }) => {
     try {
-        if (!args.username || !args.fullName || !args.password) return new Error('Missing required paramaters.')
-        const encryptedPassword = await bcrypt.hash(args.password, 10)
-        const userCheck = await User.find({ username:args.username }, 
+        if (!username || !fullName || !password) return new Error('Missing required paramaters.')
+        const encryptedPassword = await bcrypt.hash(password, 10)
+        const userCheck = await User.find({ username:username }, 
             (error, users) => {
                 if (error) throw new Error('Internal error finding user.')
                 console.log('Existing user: ', users)
                 return users
         })
             
-        if (userCheck.length) return new Error(`The username "${args.username}" is already in use.`)
+        if (userCheck.length) return new Error(`The username "${username}" is already in use.`)
         const newUser = new User({
-            username: args.username,
+            username: username,
             password: encryptedPassword,
-            fullName: args.fullName
+            fullName: fullName
         })
         newUser.save()
         const token = jwt.sign({userId: newUser.id}, process.env.APP_SECRET)
@@ -40,13 +40,13 @@ const signup = async (_, args) => {
     }
 }
 
-const login = async (_, args) => {
-    console.log(_, args)
+const login = async (_, { username, password }) => {
     try {
-        const user = await User.findOne({ username:args.username })
+        const user = await User.findOne({ username:username })
         if (!user) return new Error('No user found')
-        const valid = await bcrypt.compare(args.password, user.password)
+        const valid = await bcrypt.compare(password, user.password)
         if (valid) {
+            console.log(user)
             const token = jwt.sign({ userId:user.id }, process.env.APP_SECRET)
             return {
                 token,
@@ -61,26 +61,25 @@ const login = async (_, args) => {
 
 const addTrip = async(_, args) => {
     try {
-        console.log(args)
         const locations = []
         await asyncForEach(args.locations, 
             async (location) => {
-            let thisCity = await City.findOne({ city: location }, 
-                (error, city) => {
-                    if (error) throw new Error('Internal error finding cities.')
-                    return city
-            })
-            locations.push({
-                name: thisCity._doc.city,
-                subCountry: thisCity._doc.admin_name,
-                country: thisCity._doc.country,
-                iso3: thisCity._doc.iso3,
-                isCapital: (thisCity._doc.capital == 'primary' ||thisCity._doc.capital ==  'admin')
-            })
-        })
+                let cityData = await City.findOne({ city: location }, 
+                    (error, city) => {
+                        if (error) throw new Error('Internal error finding cities.')
+                        return city
+                })
+                if (!cityData) throw new Error('No city found, please type again.')
+                locations.push({
+                    name: cityData.city,
+                    subCountry: cityData.admin_name,
+                    country: cityData.country,
+                    iso3: cityData.iso3,
+                    isCapital: (cityData.capital == 'primary' ||cityData.capital ==  'admin')
+                })
+            }
+        )
         
-    
-    
         const newTrip = new Trip({
             startDate: "09/29/1994",
             endDate: "",
@@ -91,14 +90,21 @@ const addTrip = async(_, args) => {
             description: args.description,
             creator: args.creator
         })
-    console.log(newTrip)
+
+
         newTrip.save();
-    
-        return "Success"
+        return {
+            message: "Successfully added trip.",
+            code: 200
+        }
         
     }
     catch(error) {
         console.log(error)
+        return {
+            message: error.message,
+            code: 400
+        }
     }
 
     // try {

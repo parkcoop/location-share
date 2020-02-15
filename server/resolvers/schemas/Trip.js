@@ -30,9 +30,9 @@ const Trip = new Schema({
         type: String,
         required: false
     },
-    creator: {
-        type: String,
-        // ref: "User"
+    creator: { 
+        type: Schema.Types.ObjectId, 
+        ref: "User" 
     }
 })
 
