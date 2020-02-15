@@ -3,8 +3,7 @@ scalar Date
 type Query {
     users: [User!]!
     getUser(id: String): User!
-    # getCities: [City]!
-    # getTrips(id: String): [Trip]!
+    trips(userId: ID): [Trip!]
 }
 
 type Mutation {
@@ -35,11 +34,10 @@ type Mutation {
         locations: [String!]!
         people: [String!]
         # events: [Event!]
-        name: String
-        description: String
+        name: String!
+        description: String!
         creator: ID!
     ): Response!
-
 }
 
 type AuthPayload {
