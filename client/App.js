@@ -9,7 +9,7 @@ import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { UserContext, AuthContext } from './src/context'
-import Home from './src/screens/Home'
+import Dashboard from './src/screens/Dashboard'
 import Authentication from './src/screens/Authentication'
 
 const RootStack = createStackNavigator();
@@ -34,11 +34,9 @@ export default function App() {
       switch(action.type) {
         case 'LOGIN':
           return action.user
-          
         case 'LOGOUT':
           return {}
       }
-    
     }
   );
 
@@ -61,7 +59,7 @@ export default function App() {
               />
               <RootStack.Screen 
                 name="Details" 
-                component={Home} 
+                component={Dashboard} 
                 options={{
                   title: "Parker",
                   headerShown: false

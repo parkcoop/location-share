@@ -19,6 +19,10 @@ const success = ( type, message ) => {
             return showMessage({
                 ...successBody
             });
+        default: 
+            return showMessage({
+                ...successBody
+            });
     }
     
 }
@@ -41,6 +45,11 @@ const error = ( type, message ) => {
             return showMessage({
                 ...errorBody,
                 message: "Registration Error"
+            });
+        default: 
+            return showMessage({
+                ...errorBody,
+                message: "Please contact support."
             });
     }
     

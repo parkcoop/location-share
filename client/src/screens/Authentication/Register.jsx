@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../context';
-
 import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
-import strings from '../../config/strings';
+
+import { AuthContext } from '../../context';
 import { Button, FormTextInput} from "../../components/elements";
-import colors from "../../config/colors"
 import { showMessage } from "react-native-flash-message";
+import notify from '../../utils'
+import strings from '../../config/strings';
+import styles from './styles';
 
-
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
@@ -33,12 +33,7 @@ const Login = ({ navigation }) => {
   }
 
   const setError = () => {
-    showMessage({
-      message: "Password mismatch",
-      description: "Please ensure that both passwords match",
-
-      type: "error",
-    });
+    notify.error()
   }
 
   return (
@@ -74,7 +69,7 @@ const Login = ({ navigation }) => {
                 
                 if (password === confirmPassword) return signUp(username, password, fullName)
                 else {
-                  setError();
+                  notify.error('SIGNUP', 'Error signing up???')
                 }
                 }} />
           </View>
@@ -82,29 +77,6 @@ const Login = ({ navigation }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.WHITE,
-  },
-  form: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: "80%"
-  },
-  logo: {
-    // width: 0
-    marginTop: 150,
-    width: 310,
-    height: 35
-  },
-  text: {
-    color: 'white'
-  }
-})
   
 
-export default Login
+export default Register

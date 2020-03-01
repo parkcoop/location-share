@@ -18,15 +18,16 @@ type Mutation {
         password: String!
     ): AuthPayload
 
-    # editUserDetails(
-    #     username: String!,
-    #     fullName: String,
-    #     avatar: String,
-    #     email: String,
-    #     phone: String,
-    #     location: Location,
-    #     language: Language
-    # ): String
+    editUserDetails(
+        id: String!,
+        username: String,
+        fullName: String,
+        avatar: String,
+        email: String,
+        phone: String,
+        location: String,
+        language: String
+    ): Response!
 
     addTrip(
         startDate: Int!
@@ -59,7 +60,7 @@ type User {
     email: String
     phone: String
     location: City!
-    language: Language!
+    language: Language
     friends: [User!]
     wishTrips: [Trip!]
     interests: [String!]
@@ -82,9 +83,9 @@ type City {
 }
 
 type Language {
-    name: String!
-    nativeName: String!
-    iso: String!
+    name: String
+    nativeName: String
+    iso: String
 }
 
 type Currency {

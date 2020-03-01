@@ -7,14 +7,17 @@ import { UserContext } from '../../context';
 import colors from "../../config/colors"
 import TripList from './components/TripList'
 import SuggestedPlaces from './components/SuggestedPlaces'
-
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Profile = ({ navigation }) => {
     const user = useContext(UserContext)
 
+    const editProfile = () => {
+      navigation.navigate('EditProfile')
+    }
+
     const ProfileModal = ({ user }) => {
-      console.log('in profile', user)
         return (
             <View style={styles.myProfile}>
                 <Avatar
@@ -22,6 +25,7 @@ const Profile = ({ navigation }) => {
                     size="large"
                     containerStyle={styles.avatar}
                     showEditButton
+                    onPress={editProfile}
                     source={{
                       uri: user.avatar
                     }}
@@ -36,7 +40,7 @@ const Profile = ({ navigation }) => {
   
 
     return (
-    <View>
+    <ScrollView>  
       <ProfileModal 
         user={user}
       />
@@ -46,7 +50,7 @@ const Profile = ({ navigation }) => {
       <SuggestedPlaces
         user={user} 
       />
-    </View>
+    </ScrollView> 
     )
 }
 

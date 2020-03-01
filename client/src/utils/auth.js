@@ -17,30 +17,19 @@ const LOGIN = gql`
     mutation Login($username: String!, $password: String!) {
     login(username:$username,password:$password) {
         user {
+            id
             username
             password
             fullName
             avatar
             language {
-            iso
-            name
-            nativeName
-            }
-            trips {
-            startDate
-            endDate
-            locations {
+                iso
                 name
-            }
+                nativeName
             }
             friends {
-            username
-            fullName
-            }
-            wishTrips {
-            locations {
-                name
-            }
+                username
+                fullName
             }
             interests
         }

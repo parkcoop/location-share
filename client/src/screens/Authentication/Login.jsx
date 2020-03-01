@@ -2,9 +2,12 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Image} from 'react-native';
 
 import { AuthContext } from '../../context';
-import strings from '../../config/strings';
 import { FormTextInput, Button } from "../../components/elements";
+
+import styles from './styles'
 import colors from "../../config/colors"
+import strings from '../../config/strings';
+
 import airplane from '../../assets/images/airplane.png'
 
 const Login = ({ navigation, route }) => {
@@ -42,29 +45,7 @@ const Login = ({ navigation, route }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.WHITE,
-  },
-  form: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: "80%"
-  },
-  logo: {
-    // width: 0
-    marginTop: 150,
-    width: 310,
-    height: 35
-  },
-  text: {
-    color: 'white'
-  }
-})
+
   
 
 export default Login

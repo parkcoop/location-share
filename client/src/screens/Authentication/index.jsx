@@ -29,6 +29,7 @@ const Authentication = ({ navigation }) => {
           if (!loading) {
             const { token } = authPayload.data.login;
             const user = authPayload.data.login.user;
+            console.log(user)
             dispatch({
               user: {
                 ...user,

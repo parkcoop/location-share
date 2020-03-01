@@ -12,7 +12,9 @@ mongoose.connect(
   process.env.CONNECT_STRING, 
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
   }, 
   (error) => {
     if(error) console.log('Failed to connect to database, y tho:', error);

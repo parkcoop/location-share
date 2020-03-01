@@ -5,7 +5,7 @@ const moment = require('moment')
 const { User, City, Trip } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
 const { asyncForEach } = require('../utils/services');
-
+const languages = require('../utils/data/languages')
 const signup = async (_, { username, fullName, password }) => {
     try {
         if (!username || !fullName || !password) return new Error('Missing required paramaters.')
@@ -114,9 +114,43 @@ const addTrip = async(_, args) => {
     // }
 }
 
+const editUserDetails = async(_, args) => {
+    console.log('lol',args)
+    args.language = languages.filter((language => language.name == args.language))[0]
+    if (!args.language) return {
+        message: "Check language",
+        code: 455
+    }
+    
+   
+    console.log('sending: ', args)
+
+    try {
+        const userUpdated = User.findByIdAndUpdate(args.id,
+            {$set: args},
+            (error, user) => {
+                if (error) throw new Error(error)
+                return user
+            }
+        )
+        if (userUpdated) return {
+            message: "Successfully updated user.",
+            code: 200
+        }
+    }
+    catch(error) {
+        console.log(error)
+        return {
+            message: error.message,
+            code: 400
+        }
+    }
+}
+
 
 module.exports = {
     signup,
     login,
-    addTrip
+    addTrip,
+    editUserDetails
 }
