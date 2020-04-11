@@ -3,7 +3,6 @@ scalar Date
 type Query {
     users: [User!]!
     getUser(id: String): User!
-    trips(userId: ID): [Trip!]
 }
 
 type Mutation {
@@ -17,28 +16,6 @@ type Mutation {
         username: String!, 
         password: String!
     ): AuthPayload
-
-    editUserDetails(
-        id: String!,
-        username: String,
-        fullName: String,
-        avatar: String,
-        email: String,
-        phone: String,
-        location: String,
-        language: String
-    ): Response!
-
-    addTrip(
-        startDate: Int!
-        endDate: Int
-        locations: [String!]!
-        people: [String!]
-        # events: [Event!]
-        name: String!
-        description: String!
-        creator: ID!
-    ): Response!
 }
 
 type AuthPayload {
@@ -55,63 +32,8 @@ type User {
     id: ID!
     username: String!
     password: String!
-    fullName: String!
     avatar: String!
     email: String
-    phone: String
-    location: City!
-    language: Language
-    friends: [User!]
-    wishTrips: [Trip!]
-    interests: [String!]
-}
-
-type Country {
-    name: String!
-    capital: String!
-    borders: [Country!]
-    languages: [Language!]
-    currencies: [Currency!]
-}
-
-type City {
-    name: String!
-    subCountry: String
-    country: Country
-    iso3: String!
-    isCapital: Boolean!
-}
-
-type Language {
-    name: String
-    nativeName: String
-    iso: String
-}
-
-type Currency {
-    name: String!
-    pluralName: String!
-    symbol: String!
-    code: String!
-}
-
-type Event {
-    startDate: Date!
-    endDate: Date
-    location: City!
-    name: String!
-    description: String
-}
-
-type Trip {
-    startDate: String!
-    endDate: String
-    locations: [City]!
-    people: [User]
-    events: [Event]
-    name: String!
-    description: String
-    creator: ID!
 }
 
 schema {

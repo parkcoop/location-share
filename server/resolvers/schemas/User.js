@@ -2,13 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const defaultValues = {
-    avatar: "https://i.ya-webdesign.com/images/vector-avatars-person-6.png",
-    language: {
-        iso: "en",
-        name: "English",
-        nativeName: "English"
-    }
-    
+    avatar: "https://i.ya-webdesign.com/images/vector-avatars-person-6.png"
 }
 
 const User = new Schema({
@@ -20,10 +14,6 @@ const User = new Schema({
         type: String,
         required: true
     },
-    fullName: {
-        type: String,
-        required: true,
-    },
     avatar: {
         type: String,
         required: false,
@@ -31,31 +21,6 @@ const User = new Schema({
     },
     email: {
         type: String,
-        required: false
-    },
-    phone: {
-        type: String,
-        required: false
-    },
-    location: {
-        type: Object,
-        required: false,
-    },
-    language: {
-        type: Object,
-        required: false,
-        default: defaultValues.language
-    },
-    friends: {
-        type: Array,
-        required: false
-    },
-    wishTrips: {
-        type: Array,
-        required: false
-    },
-    interests: {
-        type: Array,
         required: false
     }
 },

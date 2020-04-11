@@ -20,18 +20,7 @@ const LOGIN = gql`
             id
             username
             password
-            fullName
             avatar
-            language {
-                iso
-                name
-                nativeName
-            }
-            friends {
-                username
-                fullName
-            }
-            interests
         }
         token
     }

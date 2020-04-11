@@ -1,4 +1,4 @@
-const { User, Trip } = require('./schemas')
+const { User } = require('./schemas')
 
 
 const users = () => User.find({}, 
@@ -8,15 +8,7 @@ const users = () => User.find({},
     }
 )
 
-const trips = (_, { userId }) => Trip.find({creator: userId}, 
-    (error, trips) => {
-        if (error) throw new Error(error)
-        return trips
-    }
-)
-
 
 module.exports = {
-    users,
-    trips
+    users
 }

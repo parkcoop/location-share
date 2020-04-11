@@ -33,4 +33,4 @@ const server = new GraphQLServer({
     context: req => ({ ...req })
   })
 
-  server.start(()=> console.log('Travelers API listening on http://localhost:4000'))
+  server.start(()=> console.log('Location Share API listening on http://localhost:4000'))
