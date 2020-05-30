@@ -30,7 +30,7 @@ const Authentication = () => {
               },
               type: 'LOGIN'
             })
-            window.location.href = '/dashboard'
+            // window.location.href = '/dashboard'
             // notify.success('LOGIN', `Welcome to Travelers, ${user.username}`)
             // navigation.navigate('Details')
           }
@@ -51,7 +51,7 @@ const Authentication = () => {
             const newUser = authPayload.data.signup?.user
             console.log('Signed up', authPayload)
             // notify.success('SIGNUP', `Welcome to Travelers, ${newUser.username}. Please re-enter your username and password.`)
-            // navigation.navigate('Login')
+            window.location.href = '/login'
           }
         }
         catch(err) {
@@ -69,27 +69,7 @@ const Authentication = () => {
     return (
       <AuthContext.Provider value={authContext}>
         <Login>
-
         </Login>
-        {/* <AuthStack.Navigator>
-          <AuthStack.Screen
-            name="Login" 
-            component={Login} 
-            options={{
-              title: "Login"
-            }}
-            initialParams={{
-              handleNewUser
-            }}
-          />
-          <AuthStack.Screen
-            name="Register" 
-            component={Register} 
-            options={{
-              title: "Register"
-            }}
-          />
-        </AuthStack.Navigator> */}
       </AuthContext.Provider>
         )
 }

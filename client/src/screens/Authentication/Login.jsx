@@ -1,12 +1,38 @@
 import React, { useState, useContext } from 'react';
 
 import { AuthContext } from '../../context';
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
-// import styles from './styles'
-// import colors from "../../config/colors"
-// import strings from '../../config/strings';
+const Title = styled.h1`
+  font-size: 2em;
+  text-align: center;
+  color: white;
+`;
+const Modal = styled.div`
+    background: #7f7f7f;
+    padding: 10px 0px 0px 10px;
+    margin: 15%auto;
+    width: 50vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const InputContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+`;
+const UiButton = styled(Button)`
+    background-color: white;
+    margin: 5px 0px;
+    width: 100%;
+    height: 25px;
+`;
+const Input = styled.input`
+    margin: 5px;
 
-import airplane from '../../assets/images/airplane.png'
+`;
 
 const Login = ({ navigation, route }) => {
   const [username, setUsername] = useState('');
@@ -25,23 +51,25 @@ const Login = ({ navigation, route }) => {
 
 
   return (
-      <div >
-          <img source={airplane}></img>
-          <div>
-            <input
+      <Modal >
+          <Title>
+              Welcome to Location Share
+          </Title>
+          <InputContainer>
+            <Input
             type="text"
                 value={username}
                 onChange={(e) => handleUsernameChange(e)}
             />
-            <input
-            type="text"
-                value={password}
-                onChange={(e) => handlePasswordChange(e)}
+            <Input
+                type="text"
+                    value={password}
+                    onChange={(e) => handlePasswordChange(e)}
             />
-            <button label="LOGIN" onClick={() => signIn(username, password)} />
-            <button label="New User"  />
-          </div>
-      </div>
+            <UiButton onClick={() => signIn(username, password)} >Sign in</UiButton>
+            <UiButton label="New User"  />
+          </InputContainer>
+      </Modal>
   )
 }
 
