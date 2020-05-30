@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+// import { Platform } from 'react-native';
 
 const constants = {
     IS_ENV_DEVELOPMENT: __DEV__,

@@ -1,25 +1,18 @@
 import React, { useContext, useMemo } from 'react';
 import Login from './Login'
-import { createStackNavigator } from '@react-navigation/stack';
 import { useMutation } from '@apollo/react-hooks';
-import 'react-native-gesture-handler';
 
 import { AuthContext } from '../../context';
-import notify from '../../utils'
 import auth from '../../utils'
-import Register from './Register'
 
-
-const AuthStack = createStackNavigator();
-
-const Authentication = ({ navigation }) => {
+const Authentication = () => {
   const [login, { loading }] = useMutation(auth.LOGIN);
   const [signup, { signupLoading }] = useMutation(auth.SIGNUP);
   const dispatch = useContext(AuthContext);
 
-  const handleNewUser = () => {
-    navigation.navigate('Register')
-  }
+  // const handleNewUser = () => {
+  //   navigation.navigate('Register')
+  // }
 
   const authContext = useMemo(
     () => ({
@@ -37,12 +30,14 @@ const Authentication = ({ navigation }) => {
               },
               type: 'LOGIN'
             })
-            notify.success('LOGIN', `Welcome to Travelers, ${user.username}`)
-            navigation.navigate('Details')
+            window.location.href = '/dashboard'
+            // notify.success('LOGIN', `Welcome to Travelers, ${user.username}`)
+            // navigation.navigate('Details')
           }
         }
         catch(err) {
-          notify.error('LOGIN', err.message)
+          console.log('shit')
+          // notify.error('LOGIN', err.message)
         }
       },
 
@@ -55,12 +50,13 @@ const Authentication = ({ navigation }) => {
           if (!signupLoading && authPayload) {
             const newUser = authPayload.data.signup?.user
             console.log('Signed up', authPayload)
-            notify.success('SIGNUP', `Welcome to Travelers, ${newUser.username}. Please re-enter your username and password.`)
-            navigation.navigate('Login')
+            // notify.success('SIGNUP', `Welcome to Travelers, ${newUser.username}. Please re-enter your username and password.`)
+            // navigation.navigate('Login')
           }
         }
         catch(err) {
-          notify.error('SIGNUP', err.message)
+          console.log('shit')
+          // notify.error('SIGNUP', err.message)
         }
 
 
@@ -72,7 +68,10 @@ const Authentication = ({ navigation }) => {
 
     return (
       <AuthContext.Provider value={authContext}>
-        <AuthStack.Navigator>
+        <Login>
+
+        </Login>
+        {/* <AuthStack.Navigator>
           <AuthStack.Screen
             name="Login" 
             component={Login} 
@@ -90,7 +89,7 @@ const Authentication = ({ navigation }) => {
               title: "Register"
             }}
           />
-        </AuthStack.Navigator>
+        </AuthStack.Navigator> */}
       </AuthContext.Provider>
         )
 }

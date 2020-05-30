@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Image} from 'react-native';
 
 import { AuthContext } from '../../context';
-import { FormTextInput, Button } from "../../components/elements";
 
-import styles from './styles'
-import colors from "../../config/colors"
-import strings from '../../config/strings';
+// import styles from './styles'
+// import colors from "../../config/colors"
+// import strings from '../../config/strings';
 
 import airplane from '../../assets/images/airplane.png'
 
@@ -16,32 +14,34 @@ const Login = ({ navigation, route }) => {
   const { signIn } = useContext(AuthContext);
 
   const handleUsernameChange = (input) => {
-      setUsername(input)
+      console.log(input.target.value)
+      setUsername(input.target.value)
   }
 
   const handlePasswordChange = (input) => {
-      setPassword(input)
+      console.log(input.target.value)
+      setPassword(input.target.value)
   }
 
 
   return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-          <Image source={airplane}></Image>
-          <View style={styles.form}>
-            <FormTextInput
+      <div >
+          <img source={airplane}></img>
+          <div>
+            <input
+            type="text"
                 value={username}
-                onChangeText={handleUsernameChange}
-                placeholder={strings.USERNAME_PLACEHOLDER}
+                onChange={(e) => handleUsernameChange(e)}
             />
-            <FormTextInput
+            <input
+            type="text"
                 value={password}
-                onChangeText={handlePasswordChange}
-                placeholder={strings.PASSWORD_PLACEHOLDER}
+                onChange={(e) => handlePasswordChange(e)}
             />
-            <Button label={strings.LOGIN} onPress={() => signIn(username, password)} />
-            <Button label="New User" onPress={route.params?.handleNewUser} />
-          </View>
-      </KeyboardAvoidingView>
+            <button label="LOGIN" onClick={() => signIn(username, password)} />
+            <button label="New User"  />
+          </div>
+      </div>
   )
 }
 

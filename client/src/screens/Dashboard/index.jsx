@@ -1,30 +1,33 @@
 
 import React from 'react';
 
-import Profile from './Profile'
-import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
-const MyProfileStack = createStackNavigator();
+// import Profile from './Profile'
+// import 'react-native-gesture-handler';
+// import { createStackNavigator } from '@react-navigation/stack';
+// const MyProfileStack = createStackNavigator();
 
 
 const Dashboard = () => {
 
-  const navigateTo = (navigator) => {
-    return (screen) => {
-      navigator.navigate(screen)
-    }
-  }
+  // const navigateTo = (navigator) => {
+  //   return (screen) => {
+  //     navigator.navigate(screen)
+  //   }
+  // }
 
   return (
-    <MyProfileStack.Navigator>
-      <MyProfileStack.Screen
-        name="Profile" 
-        component={Profile} 
-        options={{
-          title: "Parker"
-        }}
-      />
-    </MyProfileStack.Navigator>
+    <div>
+      welcome to app
+    </div>
+    // <MyProfileStack.Navigator>
+    //   <MyProfileStack.Screen
+    //     name="Profile" 
+    //     component={Profile} 
+    //     options={{
+    //       title: "Parker"
+    //     }}
+    //   />
+    // </MyProfileStack.Navigator>
   )
 }
 
