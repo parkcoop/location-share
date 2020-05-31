@@ -16,6 +16,9 @@ const AppRouter = () => {
         {user ? (
             <React.Fragment>
                 <Route path="/" render={() => <Dashboard />} />
+                <Route path="/home" render={() => <Dashboard />} />
+                <Route path="/messages" render={() => <Dashboard />} />
+                <Route path="/explore" render={() => <Dashboard />} />
                 {/* <Route path="/dashboard" render={() => <Dashboard />} /> */}
             </React.Fragment>
 

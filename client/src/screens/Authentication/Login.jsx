@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button';
 const Title = styled.h1`
   font-size: 2em;
   text-align: center;
-  color: white;
+  color: #CDCDCD;
 `;
 const Modal = styled.div`
-    background: #7f7f7f;
+    background: white;
     padding: 10px 0px 0px 10px;
     margin: 15%auto;
     width: 50vw;
@@ -24,7 +24,7 @@ const InputContainer = styled.div`
     flex-direction: column;
 `;
 const UiButton = styled(Button)`
-    background-color: white;
+    background-color: #CDCDCD;
     margin: 5px 0px;
     width: 100%;
     height: 25px;

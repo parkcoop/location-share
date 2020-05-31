@@ -2,29 +2,37 @@ import React, { useState, useContext } from "react";
 import styled from 'styled-components';
 // import Menu from '@material-ui/core/Button';
 import { Menu, MenuItem, Badge } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
+import SendIcon from '@material-ui/icons/Send';
+import ExploreIcon from '@material-ui/icons/Explore';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Mail } from '@material-ui/icons'
 import { UserContext } from '../../context'
 import { AuthContext } from '../../context';
 
 const NavContainer = styled.div`
-    background: #CDCDCD;
-    width: 100vw;
-    height: 75px;
+    background: #FFF;
+    border-bottom: 1px solid #CDCDCD;
+    width: 50%;
+    height: 55px;
     position: sticky;
     top: 0px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0px 25%;
 `;
-const AvatarContainer = styled.button`
+const ActionContainer = styled.div`
     display: flex;
     align-items: center;
     border: none;
     background: none;
+    width: 210px;
+    justify-content: space-between;
 `;
 const Avatar = styled.img`
-    width: 30px;  
-    height: 30px;
+    width: 25px;  
+    height: 25px;
     border-radius: 25%;
 `;
 const NavBar = () => {
@@ -38,38 +46,34 @@ const NavBar = () => {
         e.stopPropagation();
         setMenuAnchor(false);
     };
+    const navigateTo = e => {
+        console.log(e.target.id)
+        window.location.href = `/${e.target.id}`
+    }
     const user = useContext(UserContext)
     return (
         <NavContainer>
             <p>Location Share</p>
-            {user ? (
-                <React.Fragment>
-                    <AvatarContainer
-                        onClick={handleMenuClick}
-                    >
-                        <Avatar src={user.avatar} alt="" />
-                        <p>{user.username}</p>
-                    </AvatarContainer>
-                    <Menu
-                        onClose={handleCloseMenu}
-          open={Boolean(menuAnchor)}
-          variant="menu"
-          transformOrigin={{ vertical: -50 }}
-          anchorEl={menuAnchor}
-                    >
-                        <MenuItem onClick={handleCloseMenu}>
-                            <Badge badgeContent={4} color="primary">
-                                <Mail />
-                            </Badge>
-                        </MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-                        <MenuItem onClick={()=>dispatch({type: 'LOGOUT'})}>signOut</MenuItem>
-                    </Menu>
-                </React.Fragment>
+            <ActionContainer>
+                <HomeIcon 
+                    id="home"
+                    onClick={navigateTo}    
+                />
+                <SendIcon 
+                    id="messages"
+                    onClick={navigateTo}    
+                />
+                <ExploreIcon 
+                    id="explore"
+                    onClick={navigateTo}    
+                />
+                <FavoriteBorderIcon 
+                    id="favorites"
+                    onClick={navigateTo}    
+                />
+                <Avatar src={user.avatar} alt="" />
+            </ActionContainer>
 
-            ) : (
-                    <div>Gotta log in</div>
-                )}
         </NavContainer>
     )
 }

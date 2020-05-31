@@ -26,9 +26,9 @@ const client = new ApolloClient(
 
 
 export default function App() {
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-
+  // const [alertMessage, setAlertMessage] = useState("");
+  // const [alertType, setAlertType] = useState("");
+  // debugger;
 
   const [user, dispatch] = useReducer(
     (prevState, action) => {
@@ -44,14 +44,14 @@ export default function App() {
       }
     }
   );
-  const notify = (type, message) => {
-    setAlertMessage(message);
-    setAlertType(type);
-  };
+  // const notify = (type, message) => {
+  //   setAlertMessage(message);
+  //   setAlertType(type);
+  // };
 
-  const handleCloseAlert = () => {
-    setAlertMessage("");
-  };
+  // const handleCloseAlert = () => {
+  //   setAlertMessage("");
+  // };
 
 
   return (
@@ -59,7 +59,7 @@ export default function App() {
       <ApolloProvider client={client}>
         <AuthContext.Provider value={dispatch}>
           <UserContext.Provider value={user}>
-            <NavBar />
+            {user && <NavBar />}
             <AppRouter />
           </UserContext.Provider>
         </AuthContext.Provider>
