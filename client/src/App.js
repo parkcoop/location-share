@@ -9,7 +9,6 @@ import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { UserContext, AuthContext } from './context'
 import Authentication from './screens/Authentication'
-import NavBar from "./components/NavBar";
 import 'typeface-roboto';
 import { StylesProvider } from '@material-ui/styles';
 
@@ -59,7 +58,6 @@ export default function App() {
       <ApolloProvider client={client}>
         <AuthContext.Provider value={dispatch}>
           <UserContext.Provider value={user}>
-            {user && <NavBar />}
             <AppRouter />
           </UserContext.Provider>
         </AuthContext.Provider>

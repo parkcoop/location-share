@@ -9,6 +9,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Mail } from '@material-ui/icons'
 import { UserContext } from '../../context'
 import { AuthContext } from '../../context';
+import { IconButton } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const NavContainer = styled.div`
     background: #FFF;
@@ -27,7 +30,7 @@ const ActionContainer = styled.div`
     align-items: center;
     border: none;
     background: none;
-    width: 210px;
+    /* width: 210px; */
     justify-content: space-between;
 `;
 const Avatar = styled.img`
@@ -46,34 +49,41 @@ const NavBar = () => {
         e.stopPropagation();
         setMenuAnchor(false);
     };
-    const navigateTo = e => {
-        console.log(e.target.id)
-        window.location.href = `/${e.target.id}`
+    const navigateTo = id => {
+        console.log(id)
+        window.location.href = `/${id}`
     }
     const user = useContext(UserContext)
     return (
         <NavContainer>
             <p>Location Share</p>
             <ActionContainer>
-                <HomeIcon 
-                    id="home"
-                    onClick={navigateTo}    
-                />
-                <SendIcon 
-                    id="messages"
-                    onClick={navigateTo}    
-                />
-                <ExploreIcon 
-                    id="explore"
-                    onClick={navigateTo}    
-                />
-                <FavoriteBorderIcon 
-                    id="favorites"
-                    onClick={navigateTo}    
-                />
-                <Avatar src={user.avatar} alt="" />
+                <Link to="/">
+                    <IconButton
+                        id="home">
+                        <HomeIcon />
+                    </IconButton>
+                </Link>
+                <IconButton
+                    id="messages">
+                    <SendIcon />
+                </IconButton>
+                <IconButton
+                    id="explore">
+                    <ExploreIcon />
+                </IconButton>
+                <IconButton
+                    id="favorites">
+                    <FavoriteBorderIcon />
+                </IconButton>
+                <Link to="/profile">
+                    <IconButton
+                        id="profile"
+                    >
+                        <Avatar src={user.avatar} alt="" />
+                    </IconButton>
+                </Link>
             </ActionContainer>
-
         </NavContainer>
     )
 }

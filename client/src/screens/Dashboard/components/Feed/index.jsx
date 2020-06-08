@@ -4,7 +4,8 @@ import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import SendIcon from '@material-ui/icons/Send';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-
+import { IconButton } from '@material-ui/core';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 let { feed } = require('../../../../screens/Authentication/data.json');
 
 const PostContainer = styled.div`
@@ -72,17 +73,28 @@ const Feed = () => {
                                 <Avatar src={post.user.avatar} alt=""/>
                                 {post.user.username}
                             </div>
+                            <IconButton>
+                                <MoreHorizIcon />
+                            </IconButton>
                         </PostHeader>
                         <PostImage
                             src={post.img}
                         />
                         <ActionBar>
                             <div>
-                                <FavoriteBorderIcon />
-                                <ChatBubbleOutlineIcon />
-                                <SendIcon />
+                                <IconButton>
+                                  <FavoriteBorderIcon />
+                                </IconButton>
+                                <IconButton>
+                                    <ChatBubbleOutlineIcon />
+                                </IconButton>
+                                <IconButton>    
+                                    <SendIcon />
+                                </IconButton>   
                             </div>
-                            <BookmarkBorderIcon />
+                            <IconButton>
+                                <BookmarkBorderIcon />
+                            </IconButton>
                         </ActionBar>
                         <PostBody>
                             {post.comments.map(comment => {

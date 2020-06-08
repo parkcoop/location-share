@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { UserContext } from '../context'
 import Authentication from '../screens/Authentication'
 import Dashboard from '../screens/Dashboard'
+import Profile from '../screens/Profile'
+import NavBar from "../components/NavBar";
 
 
 const validNavBarPaths = ["/", "/register", "/login"];
@@ -12,11 +14,12 @@ const AppRouter = () => {
 //   debugger;
     return (
     <Router>
+        {user && <NavBar />}
         <React.Fragment>
         {user ? (
             <React.Fragment>
-                <Route path="/" render={() => <Dashboard />} />
-                <Route path="/home" render={() => <Dashboard />} />
+                <Route exact path="/" render={() => <Dashboard />} />
+                <Route exact path="/profile" render={() => <Profile />} />
                 <Route path="/messages" render={() => <Dashboard />} />
                 <Route path="/explore" render={() => <Dashboard />} />
                 {/* <Route path="/dashboard" render={() => <Dashboard />} /> */}
