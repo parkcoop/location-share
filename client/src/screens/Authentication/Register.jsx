@@ -1,12 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 
 import { AuthContext } from '../../context';
-import { Button, FormTextInput} from "../../components/elements";
-import { showMessage } from "react-native-flash-message";
-import notify from '../../utils'
 import strings from '../../config/strings';
-import styles from './styles';
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -16,64 +13,93 @@ const Register = ({ navigation }) => {
 
   const { signUp } = useContext(AuthContext);
 
+
+    const Title = styled.h1`
+    font-size: 2em;
+    text-align: center;
+    color: #CDCDCD;
+    `;
+    const Modal = styled.div`
+        background: white;
+        padding: 10px 0px 0px 10px;
+        margin: 15%auto;
+        width: 50vw;
+        height: 30vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    `;
+    const InputContainer = styled.div`
+        display:flex;
+        flex-direction: column;
+    `;
+    const UiButton = styled(Button)`
+        background-color: #CDCDCD;
+        margin: 5px 0px;
+        width: 100%;
+        height: 25px;
+    `;
+    const Input = styled.input`
+        margin: 5px;
+
+    `;
   const handleUsernameChange = (input) => {
-      setUsername(input)
+      setUsername(input.target.value)
   }
 
   const handleFullNameChange = (input) => {
-      setFullName(input)
+      setFullName(input.target.value)
   }
 
   const handlePasswordChange = (input) => {
-      setPassword(input)
+      setPassword(input.target.value)
   }
 
   const handleConfirmPasswordChange = (input) => {
-      setConfirmPassword(input)
+      setConfirmPassword(input.target.value)
   }
 
   const setError = () => {
-    notify.error()
+    // notify.error()
   }
 
   return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-          <View style={styles.form}>
-              <FormTextInput
-                  value={fullName}
-                  onChangeText={handleFullNameChange}
-                  placeholder={strings.FULLNAME_PLACEHOLDER}
-              />
-              <FormTextInput
-                  value={username}
-                  onChangeText={handleUsernameChange}
-                  placeholder={strings.USERNAME_PLACEHOLDER}
-              />
-              <FormTextInput
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  placeholder={strings.PASSWORD_PLACEHOLDER}
-              />
-              <FormTextInput
-                  value={confirmPassword}
-                  onChangeText={handleConfirmPasswordChange}
-                  placeholder={strings.CONFIRM_PASSWORD_PLACEHOLDER}
-              />
-              <Button label={strings.REGISTER} onPress={() => {
-                const user = {
-                  fullName,
-                  username,
-                  password,
-                  confirmPassword
-                }
-                
-                if (password === confirmPassword) return signUp(username, password, fullName)
-                else {
-                  notify.error('SIGNUP', 'Error signing up???')
-                }
-                }} />
-          </View>
-      </KeyboardAvoidingView>
+      <InputContainer>
+        <Input
+            value={fullName}
+            onChange={(e) => handleFullNameChange(e)}
+            placeholder={strings.FULLNAME_PLACEHOLDER}
+        />
+        <Input
+            value={username}
+            onChange={(e) => handleUsernameChange(e)}
+            placeholder={strings.USERNAME_PLACEHOLDER}
+        />
+        <Input
+            value={password}
+            onChange={(e) => handlePasswordChange(e)}
+            placeholder={strings.PASSWORD_PLACEHOLDER}
+        />
+        <Input
+            value={confirmPassword}
+            onChange={(e) => handleConfirmPasswordChange(e)}
+            placeholder={strings.CONFIRM_PASSWORD_PLACEHOLDER}
+        />
+        <Button label={strings.REGISTER} onClick={() => {
+            console.log("oka")
+        const user = {
+            fullName,
+            username,
+            password,
+            confirmPassword
+        }
+        
+        if (password === confirmPassword) return signUp(username, password, fullName)
+        else {
+            // notify.error('SIGNUP', 'Error signing up???')
+        }
+        }} />
+      </InputContainer>
   )
 }
 

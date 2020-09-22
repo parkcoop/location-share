@@ -22,6 +22,10 @@ const User = new Schema({
     email: {
         type: String,
         required: false
+    },
+    posts: {
+        type: Array,
+        required: false
     }
 },
 {

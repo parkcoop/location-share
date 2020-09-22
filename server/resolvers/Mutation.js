@@ -57,8 +57,24 @@ const login = async (_, { username, password }) => {
     }
 }
 
+const createPost = async (_, { username, body }) => {
+    console.log("nice")
+    const user = await User.findOne({ username:username })
+    if (!user) return new Error('No user found')
+    console.log(user.posts)
+    let post = {
+        username,
+        body,
+        ID: 555
+    }
+    user.posts.push(post)
+    user.save()
+    return post
+}
+
 
 module.exports = {
     signup,
-    login
+    login,
+    createPost
 }

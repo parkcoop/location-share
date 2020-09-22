@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import SendIcon from '@material-ui/icons/Send';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import { IconButton } from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import posts from '../../../../utils'
+import {UserContext} from '../../../../context'
+
+
 let { feed } = require('../../../../screens/Authentication/data.json');
 
 const PostContainer = styled.div`
@@ -63,8 +68,30 @@ const CommentOnPost = styled.input`
 
 `;
 const Feed = () => {
+    const [postBody, setPostBody] = useState('')
+    const user = useContext(UserContext)
+    console.log("LOL", user)
+    const {loading, error, data} = useQuery(posts.GET_POSTS,
+    {
+        variables: {
+            username: user.username
+        }
+    });
+
+    if (loading) console.log("loading")
+    console.log(data)
+
+    const handlePostBody = (input) => {
+        setPostBody(input.target.value)
+        console.log(postBody)
+    }
+
     return (
         <div>
+            <TextField
+                value={postBody}
+                onChange={(e) => handlePostBody(e)}
+            ></TextField>
             {feed.map(post=> {
                 return (
                     <PostContainer>

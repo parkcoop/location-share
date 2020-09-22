@@ -1,8 +1,15 @@
 scalar Date
+scalar Upload
 
 type Query {
     users: [User!]!
     getUser(id: String): User!
+    getPosts(username: String!): [Post]!
+}
+
+input CreatePost {
+    username: String!
+    body: String!
 }
 
 type Mutation {
@@ -16,6 +23,11 @@ type Mutation {
         username: String!, 
         password: String!
     ): AuthPayload
+
+    createPost(
+        username: String!,
+        body: String!
+    ): Post!
 }
 
 type AuthPayload {
@@ -34,6 +46,13 @@ type User {
     password: String!
     avatar: String!
     email: String
+    posts: [Post]
+}
+
+type Post {
+    id: ID!
+    username: String!
+    body: String!
 }
 
 schema {

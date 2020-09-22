@@ -57,7 +57,7 @@ const Login = ({ navigation, route }) => {
           </Title>
           <InputContainer>
             <Input
-            type="text"
+                type="text"
                 value={username}
                 onChange={(e) => handleUsernameChange(e)}
             />
