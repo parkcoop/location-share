@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import SendIcon from '@material-ui/icons/Send';
@@ -9,7 +9,7 @@ import { IconButton, TextField } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import posts from '../../../../utils'
 import {UserContext} from '../../../../context'
-
+import Upload from '../../../Upload'
 
 let { feed } = require('../../../../screens/Authentication/data.json');
 
@@ -92,6 +92,9 @@ const Feed = () => {
                 value={postBody}
                 onChange={(e) => handlePostBody(e)}
             ></TextField>
+            <Upload>
+
+            </Upload>
             {feed.map(post=> {
                 return (
                     <PostContainer>

@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
+const { createWriteStream, mkdir } = require("fs")
+const shortid = require("shortid")
 
 const { User} = require('./schemas')
 const { signupLog } = require('../utils/loggers')
@@ -72,9 +74,43 @@ const createPost = async (_, { username, body }) => {
     return post
 }
 
+const uploadFile = async(_, { file }) => {
+    console.log("WHAT")
+
+    
+    const storeUpload = async ({ stream, filename, mimetype }) => {
+        const id = shortid.generate();
+        const path = `images/${id}-${filename}`;
+        // (createWriteStream) writes our file to the images directory
+        return new Promise((resolve, reject) =>
+            stream
+                .pipe(createWriteStream(path))
+                .on("finish", () => resolve({ id, path, filename, mimetype }))
+                .on("error", reject)
+        );
+    };
+
+    const processUpload = async (upload) => {
+        const { createReadStream, filename, mimetype } = await upload;
+        const stream = createReadStream();
+        const file = await storeUpload({ stream, filename, mimetype });
+        return file;
+    };
+
+
+
+    mkdir("images", { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+    // Process upload
+    const upload = await processUpload(file);
+    return upload;
+}
+
 
 module.exports = {
     signup,
     login,
-    createPost
+    createPost,
+    uploadFile
 }
