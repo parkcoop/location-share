@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import styled from 'styled-components';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import SendIcon from '@material-ui/icons/Send';
@@ -9,8 +9,8 @@ import { IconButton, TextField } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import posts from '../../../../utils'
 import {UserContext} from '../../../../context'
-import Upload from '../../../Upload'
-
+import Upload from '../NewPost/components/Upload'
+import NewPost from '../NewPost'
 let { feed } = require('../../../../screens/Authentication/data.json');
 
 const PostContainer = styled.div`
@@ -68,9 +68,10 @@ const CommentOnPost = styled.input`
 
 `;
 const Feed = () => {
-    const [postBody, setPostBody] = useState('')
     const user = useContext(UserContext)
     console.log("LOL", user)
+
+
     const {loading, error, data} = useQuery(posts.GET_POSTS,
     {
         variables: {
@@ -81,20 +82,12 @@ const Feed = () => {
     if (loading) console.log("loading")
     console.log(data)
 
-    const handlePostBody = (input) => {
-        setPostBody(input.target.value)
-        console.log(postBody)
-    }
+ 
 
     return (
         <div>
-            <TextField
-                value={postBody}
-                onChange={(e) => handlePostBody(e)}
-            ></TextField>
-            <Upload>
+            <NewPost></NewPost>
 
-            </Upload>
             {feed.map(post=> {
                 return (
                     <PostContainer>

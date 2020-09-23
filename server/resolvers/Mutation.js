@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
-const { createWriteStream, mkdir } = require("fs")
+const { createWriteStream, mkdir, unlinkSync } = require("fs")
 const shortid = require("shortid")
 var cloudinary = require('cloudinary').v2
 
@@ -60,7 +60,7 @@ const login = async (_, { username, password }) => {
     }
 }
 
-const createPost = async (_, { username, body }) => {
+const createPost = async (_, { username, body, image }) => {
     console.log("nice")
     const user = await User.findOne({ username:username })
     if (!user) return new Error('No user found')
@@ -68,6 +68,7 @@ const createPost = async (_, { username, body }) => {
     let post = {
         username,
         body,
+        image,
         ID: 555
     }
     user.posts.push(post)
@@ -75,7 +76,7 @@ const createPost = async (_, { username, body }) => {
     return post
 }
 
-const uploadFile = async(_, { file }) => {
+const uploadToCloudinary = async(_, { file }) => {
     console.log("WHAT")
 
 
@@ -96,9 +97,16 @@ const uploadFile = async(_, { file }) => {
         const stream = createReadStream();
         const file = await storeUpload({ stream, filename, mimetype });
         console.log("THIS", file)
-        cloudinary.uploader.upload(file.path, function(error, result) { console.log(result) });
+        let uploadedFile = await cloudinary.uploader.upload(file.path);
 
-        return file;
+        console.log('final return promise', uploadedFile.url)
+        try {
+            unlinkSync(file.path)
+            //file removed
+        } catch(err) {
+            console.error(err)
+        }
+        return uploadedFile.url
     };
 
 
@@ -116,5 +124,5 @@ module.exports = {
     signup,
     login,
     createPost,
-    uploadFile
+    uploadToCloudinary
 }

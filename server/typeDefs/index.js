@@ -15,6 +15,7 @@ const typeDefs = gql`
     input CreatePost {
         username: String!
         body: String!
+        image: String
     }
 
     type File {
@@ -39,11 +40,12 @@ const typeDefs = gql`
         createPost(
             username: String!,
             body: String!
+            image: String
         ): Post!
 
-        uploadFile(
+        uploadToCloudinary(
             file: Upload!
-        ) : File
+        ) : String!
     }
 
     type AuthPayload {
@@ -69,6 +71,7 @@ const typeDefs = gql`
         id: ID!
         username: String!
         body: String!
+        image: String
     }
 
     schema {
