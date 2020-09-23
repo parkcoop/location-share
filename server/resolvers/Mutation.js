@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const moment = require('moment')
 const { createWriteStream, mkdir } = require("fs")
 const shortid = require("shortid")
+var cloudinary = require('cloudinary').v2
 
 const { User} = require('./schemas')
 const { signupLog } = require('../utils/loggers')
@@ -77,7 +78,7 @@ const createPost = async (_, { username, body }) => {
 const uploadFile = async(_, { file }) => {
     console.log("WHAT")
 
-    
+
     const storeUpload = async ({ stream, filename, mimetype }) => {
         const id = shortid.generate();
         const path = `images/${id}-${filename}`;
@@ -94,6 +95,9 @@ const uploadFile = async(_, { file }) => {
         const { createReadStream, filename, mimetype } = await upload;
         const stream = createReadStream();
         const file = await storeUpload({ stream, filename, mimetype });
+        console.log("THIS", file)
+        cloudinary.uploader.upload(file.path, function(error, result) { console.log(result) });
+
         return file;
     };
 
