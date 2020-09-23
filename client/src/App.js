@@ -3,9 +3,10 @@ import AppRouter from "./AppRouter";
 import logo from './logo.svg';
 import './App.css';
 
-import { ApolloProvider } from '@apollo/react-hooks';
-import { ApolloClient } from 'apollo-boost';
-import { createHttpLink } from "apollo-link-http";
+import { ApolloProvider } from '@apollo/client';
+import { ApolloClient } from '@apollo/client';
+import { createHttpLink } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { UserContext, AuthContext } from './context'
 import Authentication from './screens/Authentication'
@@ -14,8 +15,8 @@ import { StylesProvider } from '@material-ui/styles';
 
 const client = new ApolloClient(
   {
-    link: createHttpLink({
-      uri: 'http://127.0.0.1:4000',
+    link: createUploadLink({
+      uri: 'http://127.0.0.1:4000/graphql',
     }),
     headers: {
       authorization: ''

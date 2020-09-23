@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
+const { createWriteStream, mkdir, unlinkSync } = require("fs")
+const shortid = require("shortid")
+var cloudinary = require('cloudinary').v2
 
 const { User} = require('./schemas')
 const { signupLog } = require('../utils/loggers')
@@ -57,7 +60,7 @@ const login = async (_, { username, password }) => {
     }
 }
 
-const createPost = async (_, { username, body }) => {
+const createPost = async (_, { username, body, image }) => {
     console.log("nice")
     const user = await User.findOne({ username:username })
     if (!user) return new Error('No user found')
@@ -65,6 +68,7 @@ const createPost = async (_, { username, body }) => {
     let post = {
         username,
         body,
+        image,
         ID: 555
     }
     user.posts.push(post)
@@ -72,9 +76,53 @@ const createPost = async (_, { username, body }) => {
     return post
 }
 
+const uploadToCloudinary = async(_, { file }) => {
+    console.log("WHAT")
+
+
+    const storeUpload = async ({ stream, filename, mimetype }) => {
+        const id = shortid.generate();
+        const path = `images/${id}-${filename}`;
+        // (createWriteStream) writes our file to the images directory
+        return new Promise((resolve, reject) =>
+            stream
+                .pipe(createWriteStream(path))
+                .on("finish", () => resolve({ id, path, filename, mimetype }))
+                .on("error", reject)
+        );
+    };
+
+    const processUpload = async (upload) => {
+        const { createReadStream, filename, mimetype } = await upload;
+        const stream = createReadStream();
+        const file = await storeUpload({ stream, filename, mimetype });
+        console.log("THIS", file)
+        let uploadedFile = await cloudinary.uploader.upload(file.path);
+
+        console.log('final return promise', uploadedFile.url)
+        try {
+            unlinkSync(file.path)
+            //file removed
+        } catch(err) {
+            console.error(err)
+        }
+        return uploadedFile.url
+    };
+
+
+
+    mkdir("images", { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+    // Process upload
+    const upload = await processUpload(file);
+    return upload;
+}
+
 
 module.exports = {
     signup,
     login,
-    createPost
+    createPost,
+    uploadToCloudinary
 }

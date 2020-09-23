@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import Login from './Login'
 import Register from './Register'
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 
 import { AuthContext } from '../../context';
 import auth from '../../utils'
