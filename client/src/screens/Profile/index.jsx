@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import AboutSection from './components/AboutSection'
+import Feed from './components/Feed'
 let { user } = require('../../screens/Authentication/data.json');
 
 const Container = styled.div`
@@ -12,6 +13,8 @@ const Container = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
 `;
 
 
@@ -20,7 +23,8 @@ const Profile = () => {
   // debugger;
   return (
     <Container>
-        Nice
+        <AboutSection />
+        <Feed />
     </Container>
   )
 }

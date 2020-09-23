@@ -6,9 +6,23 @@ import Upload from './components/Upload'
 import { UserContext, PostContext } from '../../../../context'
 
 import posts from '../../../../utils'
+
+
 const NewPost = () => {
     const user = useContext(UserContext)
-    const [postBody, setPostBody] = useState({})
+    const [postBody, setPostBody] = useState({
+        body: null,
+        image: null
+    })
+
+    const updateImage = (url) => {
+        setPostBody(prevState => ({
+            ...prevState,
+            image: url
+        }))
+    }
+
+    // const updatePost
 
 
 
@@ -16,8 +30,9 @@ const NewPost = () => {
 
    const handlePostBody = (input) => {
         setPostBody({
-            body: input.target.value,
-            ...postBody})
+            ...postBody,
+            body: input.target.value
+        })
         console.log(postBody)
     }
 
@@ -42,7 +57,7 @@ const NewPost = () => {
             ></TextField>
             <Upload
                 post={postBody}
-                updateImage={setPostBody}>
+                updateImage={updateImage}>
 
             </Upload>
                 <IconButton
