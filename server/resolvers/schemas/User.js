@@ -26,6 +26,14 @@ const User = new Schema({
     posts: {
         type: Array,
         required: false
+    },
+    followers: {
+        type: Array,
+        required: true
+    },
+    following: {
+        type: Array,
+        required: true
     }
 },
 {

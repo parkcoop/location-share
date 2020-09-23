@@ -31,9 +31,7 @@ const FileUpload = ({post, updateImage}) => {
       });
       console.log(cloudinaryUrl.data.uploadToCloudinary)
       setImageUpload(cloudinaryUrl.data.uploadToCloudinary)
-      updateImage({
-        image: cloudinaryUrl.data.uploadToCloudinary,
-        ...post})
+      updateImage(cloudinaryUrl.data.uploadToCloudinary)
     },
     // pass in uploadToCloudinary as a dependency
     [uploadToCloudinary]

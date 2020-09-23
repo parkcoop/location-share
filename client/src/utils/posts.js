@@ -12,9 +12,10 @@ const CREATE_POST = gql`
 
 const GET_POSTS = gql`
     query posts($username: String!) {
-        posts(username: $username) {
+        getPosts(username: $username) {
             body
-            ID
+            username
+            image
         }
     }
 `
