@@ -11,7 +11,7 @@ import posts from '../../../../utils'
 import {UserContext} from '../../../../context'
 import Upload from '../NewPost/components/Upload'
 import NewPost from '../NewPost'
-let { feed } = require('../../../../screens/Authentication/data.json');
+// let { feed } = require('../../../../screens/Authentication/data.json');
 
 const PostContainer = styled.div`
     background: white;
@@ -81,27 +81,27 @@ const Feed = () => {
 
     if (loading) console.log("loading")
     console.log(data)
-
+    let feed = data && [...data?.getPosts].reverse()
  
 
     return (
         <div>
             <NewPost></NewPost>
 
-            {feed.map(post=> {
+            {feed && feed.map(post=> {
                 return (
                     <PostContainer>
                         <PostHeader>
                             <div>
-                                <Avatar src={post.user.avatar} alt=""/>
-                                {post.user.username}
+                                <Avatar src={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRnSKW5YyoAmetyO8EJgJhhc_-rAQHUOM53PQ&usqp=CAU"} alt=""/>
+                                {post.username}
                             </div>
                             <IconButton>
                                 <MoreHorizIcon />
                             </IconButton>
                         </PostHeader>
                         <PostImage
-                            src={post.img}
+                            src={post.image}
                         />
                         <ActionBar>
                             <div>
@@ -120,7 +120,7 @@ const Feed = () => {
                             </IconButton>
                         </ActionBar>
                         <PostBody>
-                            {post.comments.map(comment => {
+                            {post.comments && post.comments.map(comment => {
                                 return (
                                     <div>
                                         <p>{comment.user.username}: {comment.content}</p>

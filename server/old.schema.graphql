@@ -1,0 +1,63 @@
+# scalar Date
+# scalar Upload
+
+# type Query {
+#     users: [User!]!
+#     getUser(id: String): User!
+#     getPosts(username: String!): [Post]!
+# }
+
+# input CreatePost {
+#     userId: String!
+#     username: String!
+#     body: String!
+# }
+
+# type Mutation {
+#     signup(
+#         username: String!, 
+#         password: String!, 
+#         fullName: String! 
+#     ): AuthPayload
+
+#     login(
+#         username: String!, 
+#         password: String!
+#     ): AuthPayload
+
+#     createPost(
+#         username: String!,
+#         body: String!
+#     ): Post!
+# }
+
+# type AuthPayload {
+#     token: String
+#     user: User
+# }
+
+# type Response {
+#     message: String!
+#     code: Int!
+# }
+
+# type User {
+#     id: ID!
+#     username: String!
+#     password: String!
+#     avatar: String!
+#     email: String
+#     posts: [Post]
+# }
+
+# type Post {
+#     id: ID!
+#     username: String!
+#     body: String!
+# }
+
+# schema {
+#     query: Query
+#     mutation: Mutation
+# }
+

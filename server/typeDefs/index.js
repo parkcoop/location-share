@@ -7,13 +7,7 @@ const typeDefs = gql`
     type Query {
         users: [User!]!
         getUser(username: String): User!
-        getPosts(username: String!): [Post]!
-    }
-
-    input CreatePost {
-        username: String!
-        body: String!
-        image: String
+        getPosts(username: String, userId: String): [Post]!
     }
 
     type File {
@@ -36,6 +30,7 @@ const typeDefs = gql`
         ): AuthPayload
 
         createPost(
+            userId: String!
             username: String!,
             body: String!
             image: String
@@ -70,6 +65,20 @@ const typeDefs = gql`
         username: String!
         body: String!
         image: String
+        comments: [Comment]!
+        likes: Int!
+        location: Location
+    }
+
+    type Comment {
+        username: String!
+        body: String!
+        likes: Int!
+    }
+
+    type Location {
+        city: String!
+        country: String!
     }
 
     schema {

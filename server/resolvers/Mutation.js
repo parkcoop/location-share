@@ -5,7 +5,7 @@ const { createWriteStream, mkdir, unlinkSync } = require("fs")
 const shortid = require("shortid")
 var cloudinary = require('cloudinary').v2
 
-const { User} = require('./schemas')
+const { User, Post } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
 const signup = async (_, { username, fullName, password }) => {
     try {
@@ -60,7 +60,7 @@ const login = async (_, { username, password }) => {
     }
 }
 
-const createPost = async (_, { username, body, image }) => {
+const createPost = async (_, { userId, username, body, image }) => {
     console.log("nice")
     const user = await User.findOne({ username:username })
     if (!user) return new Error('No user found')
@@ -71,6 +71,11 @@ const createPost = async (_, { username, body, image }) => {
         image,
         ID: 555
     }
+    let userPost = new Post({
+        postedBy: userId,
+        ...post
+    })
+    userPost.save()
     user.posts.push(post)
     user.save()
     return post

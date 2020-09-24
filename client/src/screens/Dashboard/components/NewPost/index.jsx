@@ -39,7 +39,7 @@ const NewPost = () => {
     const submitPost = async () => {
         console.log({variables: {username: user.username, body: postBody, image: postBody.image}})
         try {
-            const newPost = await createPost({variables: {username: user.username, body: postBody.body, image: postBody.image}})
+            const newPost = await createPost({variables: {userId: user.id, username: user.username, body: postBody.body, image: postBody.image}})
             console.log(newPost)
         }
         catch(err) {

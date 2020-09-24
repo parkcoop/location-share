@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const CREATE_POST = gql`
-    mutation CreatePost($username: String!, $body: String!, $image: String) {
-        createPost(username: $username, body: $body, image: $image) {
+    mutation CreatePost($userId: String!, $username: String!, $body: String!, $image: String) {
+        createPost(userId: $userId, username: $username, body: $body, image: $image) {
             body
             image    
         }
