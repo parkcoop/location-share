@@ -103,6 +103,8 @@ const Feed = () => {
                         <PostImage
                             src={post.image}
                         />
+                        <p>{post.likes} likes</p>
+                        <p>{post.body}</p>
                         <ActionBar>
                             <div>
                                 <IconButton>

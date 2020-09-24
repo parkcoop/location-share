@@ -16,6 +16,16 @@ const GET_POSTS = gql`
             body
             username
             image
+            comments {
+                username
+                body
+            }
+            likes
+            location {
+                city
+                country
+            }
+
         }
     }
 `
