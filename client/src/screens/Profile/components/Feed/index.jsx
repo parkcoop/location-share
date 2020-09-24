@@ -21,13 +21,12 @@ const PostSquare = styled.img`
 `
 
 
-const Feed = () => {
-    const user = useContext(UserContext)
-
+const Feed = ({user}) => {
+    console.log("IN FEED", user)
     const {loading, error, data} = useQuery(posts.GET_POSTS,
         {
             variables: {
-                username: user.username
+                username: user && user.username
             }
         }
     );

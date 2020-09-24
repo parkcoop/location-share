@@ -6,10 +6,8 @@ const typeDefs = gql`
 
     type Query {
         users: [User!]!
-        getUser(id: String): User!
+        getUser(username: String): User!
         getPosts(username: String!): [Post]!
-        files: [File!]
-
     }
 
     input CreatePost {

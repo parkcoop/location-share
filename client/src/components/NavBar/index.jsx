@@ -76,7 +76,7 @@ const NavBar = () => {
                     id="favorites">
                     <FavoriteBorderIcon />
                 </IconButton>
-                <Link to="/profile">
+                <Link to={"/profile/" + user.username}>
                     <IconButton
                         id="profile"
                     >

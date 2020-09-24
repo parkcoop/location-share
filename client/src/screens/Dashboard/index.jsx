@@ -2,6 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Feed from './components/Feed'
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+
+
 let { stories } = require('../../screens/Authentication/data.json');
 
 const Title = styled.h1`
@@ -73,18 +79,32 @@ const Avatar = styled.img`
     border-radius: 25%;
     margin: 5px;
 `;
+
+const GET_USERS = gql`
+  {
+    users {
+      username
+      avatar
+    }
+  }
+  `;
+
 const Stories = () => {
+  const { loading, error, data } = useQuery(GET_USERS);
+  let allUsers = data && data?.users
   return (
     <StoryContainer>
       <AllStories>
-        {stories.map(story => {
+        {allUsers && allUsers.map((story, index) => {
           return (
-            <SingleStory>
-              <Avatar
-                src={story.user.avatar}>
-              </Avatar>
-                <p>{story.user.username}</p>
-            </SingleStory>
+            <SingleStory key={index}>
+             <Link to={"/profile/" + story.username}>
+                <Avatar
+                  src={story.avatar}>
+                </Avatar>
+              </Link>
+                  <p>{story.username}</p>
+              </SingleStory>
           )
         })}
       </AllStories>

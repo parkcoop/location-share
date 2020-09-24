@@ -35,22 +35,15 @@ const UserLine = styled.div`
     justify-content: space-between;
 `
 
-const AboutSection = () => {
-
-
-    const user = useContext(UserContext)
-
-
-    console.log(user)
-
+const AboutSection = ({user}) => {
     return (
         <AboutMeBanner>
             <Avatar
-            src={user.avatar}>
+            src={user?.avatar}>
             </Avatar>
             <ProfileInfo>
                 <UserLine>
-                    <p>{user.username}</p>
+                    <p>{user?.username}</p>
                     <button>
                         Edit Profile
                     </button>

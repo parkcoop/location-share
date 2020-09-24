@@ -40,12 +40,10 @@ const Login = ({ navigation, route }) => {
   const { signIn } = useContext(AuthContext);
 
   const handleUsernameChange = (input) => {
-      console.log(input.target.value)
       setUsername(input.target.value)
   }
 
   const handlePasswordChange = (input) => {
-      console.log(input.target.value)
       setPassword(input.target.value)
   }
 
