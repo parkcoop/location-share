@@ -11,8 +11,8 @@ const CREATE_POST = gql`
 
 
 const GET_POSTS = gql`
-    query posts($username: String!) {
-        getPosts(username: $username) {
+    query posts($userId: String, $username: String) {
+        getPosts(userId: $userId, username: $username) {
             body
             username
             image

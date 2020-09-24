@@ -72,12 +72,7 @@ const Feed = () => {
     console.log("LOL", user)
 
 
-    const {loading, error, data} = useQuery(posts.GET_POSTS,
-    {
-        variables: {
-            username: user.username
-        }
-    });
+    const {loading, error, data} = useQuery(posts.GET_POSTS);
 
     if (loading) console.log("loading")
     console.log(data)
