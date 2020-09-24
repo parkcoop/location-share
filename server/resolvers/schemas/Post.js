@@ -4,12 +4,7 @@ const Schema = mongoose.Schema;
 
 const Post = new Schema({
     postedBy: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    username: {
-        type: String,
+        type: Object,
         required: true
     },
     body: {

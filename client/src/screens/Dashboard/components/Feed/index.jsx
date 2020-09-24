@@ -11,6 +11,7 @@ import posts from '../../../../utils'
 import {UserContext} from '../../../../context'
 import Upload from '../NewPost/components/Upload'
 import NewPost from '../NewPost'
+import { Link } from 'react-router-dom';
 // let { feed } = require('../../../../screens/Authentication/data.json');
 
 const PostContainer = styled.div`
@@ -87,10 +88,10 @@ const Feed = () => {
                 return (
                     <PostContainer>
                         <PostHeader>
-                            <div>
-                                <Avatar src={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRnSKW5YyoAmetyO8EJgJhhc_-rAQHUOM53PQ&usqp=CAU"} alt=""/>
-                                {post.username}
-                            </div>
+                            <Link to={"/profile/" + post.postedBy.username}>
+                                <Avatar src={post.postedBy.avatar} alt=""/>
+                                {post.postedBy.username}
+                            </Link>
                             <IconButton>
                                 <MoreHorizIcon />
                             </IconButton>

@@ -62,7 +62,7 @@ const typeDefs = gql`
 
     type Post {
         id: ID!
-        username: String!
+        postedBy: User!
         body: String!
         image: String
         comments: [Comment]!

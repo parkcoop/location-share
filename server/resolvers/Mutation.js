@@ -72,7 +72,7 @@ const createPost = async (_, { userId, username, body, image }) => {
         ID: 555
     }
     let userPost = new Post({
-        postedBy: userId,
+        postedBy: user,
         ...post
     })
     userPost.save()

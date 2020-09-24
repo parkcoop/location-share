@@ -14,7 +14,10 @@ const GET_POSTS = gql`
     query posts($userId: String, $username: String) {
         getPosts(userId: $userId, username: $username) {
             body
-            username
+            postedBy {
+                username
+                avatar
+            }
             image
             comments {
                 username
