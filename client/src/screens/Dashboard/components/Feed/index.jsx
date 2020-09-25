@@ -70,13 +70,11 @@ const CommentOnPost = styled.input`
 `;
 const Feed = () => {
     const user = useContext(UserContext)
-    console.log("LOL", user)
 
 
     const {loading, error, data} = useQuery(posts.GET_POSTS);
 
-    if (loading) console.log("loading")
-    console.log(data)
+    // if (loading)
     let feed = data && [...data?.getPosts].reverse()
  
 
@@ -84,9 +82,9 @@ const Feed = () => {
         <div>
             <NewPost></NewPost>
 
-            {feed && feed.map(post=> {
+            {feed && feed.map((post, index)=> {
                 return (
-                    <PostContainer>
+                    <PostContainer key={index}>
                         <PostHeader>
                             <Link to={"/profile/" + post.postedBy.username}>
                                 <Avatar src={post.postedBy.avatar} alt=""/>

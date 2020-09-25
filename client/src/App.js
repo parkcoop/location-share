@@ -22,7 +22,21 @@ const client = new ApolloClient(
         credentials: "include"
       }
     }),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'ignore',
+      },
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all'
+      }
+    }
   })
 
 
@@ -35,14 +49,7 @@ export default function App() {
     (prevState, action) => {
       switch (action.type) {
         case 'CHECK_TOKEN':
-          console.log("WTF")
-          debugger;
-          return action.user
-
         case 'LOGIN':
-          // debugger;
-          // notify("message", 'nice');
-
           return action.user
         case 'LOGOUT':
           window.location.href = "/"

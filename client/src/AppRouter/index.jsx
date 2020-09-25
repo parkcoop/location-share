@@ -23,13 +23,19 @@ const AppRouter = () => {
         let validatedUser
         if (token) {
             validatedUser = jwt_decode(token).user
-        }
-        if (!user) {
-            dispatch({
-                user: validatedUser,
-                type: "CHECK_TOKEN"
-            })
+            if (!user) {
+                dispatch({
+                    user: {
+                        id: validatedUser._id,
+                        username: validatedUser.username,
+                        password: validatedUser.password,
+                        avatar: validatedUser.avatar,
+                        token: token
+                    },
+                    type: "CHECK_TOKEN"
+                })
 
+            }
         }
     }
 
@@ -41,7 +47,6 @@ const AppRouter = () => {
                     <React.Fragment>
                         <Route path="/" render={() => {
                             checkToken()
-                            console.log("WE HAVE", user)
                             return <AuthenticatedRoutes />
                         }} />
                     </React.Fragment>

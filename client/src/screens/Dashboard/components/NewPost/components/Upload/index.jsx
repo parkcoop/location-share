@@ -29,7 +29,6 @@ const FileUpload = ({post, updateImage}) => {
         },
         onError: (error) => console.log(error)
       });
-      console.log(cloudinaryUrl.data.uploadToCloudinary)
       setImageUpload(cloudinaryUrl.data.uploadToCloudinary)
       updateImage(cloudinaryUrl.data.uploadToCloudinary)
     },

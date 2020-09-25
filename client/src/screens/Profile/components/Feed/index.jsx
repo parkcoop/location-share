@@ -22,7 +22,6 @@ const PostSquare = styled.img`
 
 
 const Feed = ({user}) => {
-    console.log("IN FEED", user)
     const {loading, error, data} = useQuery(posts.GET_POSTS,
         {
             variables: {
@@ -31,8 +30,7 @@ const Feed = ({user}) => {
         }
     );
 
-    if (loading) console.log("loading")
-    console.log(data?.getPosts)
+    // if (loading) console.log("loading")
     let userPosts = data && [...data?.getPosts].reverse()
 
     return (

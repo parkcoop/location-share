@@ -27,8 +27,11 @@ const Authentication = () => {
             console.log(user)
             dispatch({
               user: {
-                ...user,
-                token
+                id: user.id,
+                username: user.username,
+                password: user.password,
+                avatar: user.avatar,
+                token: user.token,
               },
               type: 'LOGIN'
             })

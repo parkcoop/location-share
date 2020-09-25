@@ -33,17 +33,14 @@ const NewPost = () => {
             ...postBody,
             body: input.target.value
         })
-        console.log(postBody)
     }
 
     const submitPost = async () => {
-        console.log({variables: {username: user.username, body: postBody, image: postBody.image}})
         try {
             const newPost = await createPost({variables: {userId: user.id, username: user.username, body: postBody.body, image: postBody.image}})
-            console.log(newPost)
         }
         catch(err) {
-            console.log('shit')
+            console.log('shit', err)
             // notify.error('LOGIN', err.message)
         }
     }

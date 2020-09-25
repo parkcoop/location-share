@@ -38,7 +38,6 @@ const GET_USER = gql`
 
 const Profile = () => {
   let { username } = useParams();
-  console.log(username)
   const { loading, error, data } = useQuery(GET_USER,
     {
         variables: {
@@ -46,8 +45,6 @@ const Profile = () => {
         }
     });;
   let requestedUser = data && data.getUser
-  console.log("BEFORE FEED", requestedUser)
-  // debugger;
   return (
     <Container>
         <AboutSection user={requestedUser} />
