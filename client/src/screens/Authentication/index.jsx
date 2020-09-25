@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import Login from './Login'
 import Register from './Register'
 import { useMutation } from '@apollo/client';
-
+import Cookies from 'js-cookie'
 import { AuthContext } from '../../context';
 import auth from '../../utils'
 
@@ -23,6 +23,7 @@ const Authentication = () => {
           if (!loading) {
             const { token } = authPayload.data.login;
             const user = authPayload.data.login.user;
+            Cookies.set("token", token)
             console.log(user)
             dispatch({
               user: {

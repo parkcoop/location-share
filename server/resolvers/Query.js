@@ -22,30 +22,22 @@ const getUser = async (_, {username}) =>{
     return user[0]
 }
 
-const getPosts = async (_, {username, userId}) =>{ 
-    console.log("entered", username, {username} || (userId && {postedBy: userId}) || {})
-//     //  let user = await User.find({username}, 
-//     // (error, user) => {
-//     //     console.log("LLLL")
-//     //     if (error) throw new Error(error)
-//     //     return user.posts
-//     }
-    
-// )
-if (!username && !userId) return Post.find({}, 
-    (error, users) => {
-        if (error) throw new Error(error)
-        return users
-    }
-)
-    let Posts = await Post.find(({username} || (userId ? {postedBy: userId} : {})), 
- (error, posts) => {
-     console.log("LLLL")
-     if (error) throw new Error(error)
-     return posts
-})
-console.log("WE GOT",Posts)
-return Posts
+const getPosts = async (_, {username, userId}, context, info) =>{ 
+    console.log("searching posts for ", username, userId)
+    console.log("logged in as", context.user)
+
+    let query
+    if (!username && !userId) query = {}
+    // if (userId) query = { "postedBy": { id: userId } }
+    if (username) query = {"postedBy.username" : username}
+    console.log(query)
+    return Post.find(query, 
+        (error, posts) => {
+            if (error) throw new Error(error)
+            return posts
+        }
+    ) 
+
 }
 
 

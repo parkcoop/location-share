@@ -16,14 +16,18 @@
     "axios": "^0.20.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
+    "js-cookie": "^2.2.1",
+    "jwt-decode": "^3.0.0-beta.2",
     "moment": "^2.24.0",
     "react": "^16.13.1",
+    "react-cookies": "^0.1.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
-    "typeface-roboto": "0.0.75"
+    "typeface-roboto": "0.0.75",
+    "whatwg-fetch": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -7,7 +7,7 @@ var cloudinary = require('cloudinary').v2
 
 const { User, Post } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
-const signup = async (_, { username, fullName, password }) => {
+const signup = async (_, { username, fullName, password }, { res }) => {
     try {
         if (!username || !fullName || !password) return new Error('Missing required paramaters.')
         const encryptedPassword = await bcrypt.hash(password, 10)
@@ -25,7 +25,13 @@ const signup = async (_, { username, fullName, password }) => {
             fullName: fullName
         })
         newUser.save()
-        const token = jwt.sign({userId: newUser.id}, process.env.APP_SECRET)
+        const token = jwt.sign({userId: newUser.id}, process.env.APP_SECRET, { expiresIn: "1d"})
+        res.cookie("token", token, {
+            httpOnly: false,
+            secure: false,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            path: '/'
+        })
         return {
             token,
             user: newUser
@@ -41,14 +47,22 @@ const signup = async (_, { username, fullName, password }) => {
     }
 }
 
-const login = async (_, { username, password }) => {
+const login = async (_, { username, password }, {res}, info) => {
     try {
         const user = await User.findOne({ username:username })
         if (!user) return new Error('No user found')
         const valid = await bcrypt.compare(password, user.password)
         if (valid) {
             console.log(user)
-            const token = jwt.sign({ userId:user.id }, process.env.APP_SECRET)
+            const token = jwt.sign({ user }, process.env.APP_SECRET)
+            console.log("SIGNING COOKIE")
+            res.cookie("token", token, {
+                httpOnly: false,
+                secure: false,
+                maxAge: 1000 * 60 * 60 * 24 * 7,
+                sameSite: 'None'
+            })
+            console.log(token)
             return {
                 token,
                 user,

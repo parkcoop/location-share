@@ -2,7 +2,7 @@ import React, { useState, useReducer } from 'react';
 import AppRouter from "./AppRouter";
 import logo from './logo.svg';
 import './App.css';
-
+import {fetch} from 'whatwg-fetch'
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient } from '@apollo/client';
 import { createHttpLink } from '@apollo/client';
@@ -17,10 +17,11 @@ const client = new ApolloClient(
   {
     link: createUploadLink({
       uri: 'http://127.0.0.1:4000/graphql',
+      fetch,
+      fetchOptions: {
+        credentials: "include"
+      }
     }),
-    headers: {
-      authorization: ''
-    },
     cache: new InMemoryCache()
   })
 

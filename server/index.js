@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 
 const { GraphQLServer } = require('graphql-yoga')
 const express = require('express');
@@ -39,14 +41,41 @@ app.use('/lol', (req, res) => {
   console.log(req)
   res.json({parker:"LOL"})
 })
+
+
+
 app.listen(8080)
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({req, res}) => {
+      res.cookie("PARKER","LOL")
+      console.log("DO WE HAVE", req.cookies)
+      
+      return {
+        user: {},
+        res
+      }
+    }
   })
 
-server.applyMiddleware({ app });
+const parker = (req, res, next) => {
+  console.log("were in use")
+  console.log("do we have token in use", req.cookies)
+  res.set("cookie", "OMfwefwefwefwefG")
+  return next()
+}
+app.use(cookieParser())
+app.use(bodyParser.json())
+// app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(parker)
+
+server.applyMiddleware({ 
+  app,
+  path: '/graphql',
+  cors: { credentials: true, origin: "http://localhost:3000" } 
+});
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

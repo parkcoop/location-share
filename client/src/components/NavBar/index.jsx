@@ -12,6 +12,7 @@ import { AuthContext } from '../../context';
 import { IconButton } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 const NavContainer = styled.div`
     background: #FFF;
@@ -53,6 +54,11 @@ const NavBar = () => {
         console.log(id)
         window.location.href = `/${id}`
     }
+
+    const logout = () => {
+        Cookies.remove('token')
+        window.location.href = "/"
+    }
     const user = useContext(UserContext)
     return (
         <NavContainer>
@@ -73,14 +79,15 @@ const NavBar = () => {
                     <ExploreIcon />
                 </IconButton>
                 <IconButton
+                    onClick={logout}
                     id="favorites">
                     <FavoriteBorderIcon />
                 </IconButton>
-                <Link to={"/profile/" + user.username}>
+                <Link to={"/profile/" + user?.username}>
                     <IconButton
                         id="profile"
                     >
-                        <Avatar src={user.avatar} alt="" />
+                        <Avatar src={user?.avatar} alt="" />
                     </IconButton>
                 </Link>
             </ActionContainer>

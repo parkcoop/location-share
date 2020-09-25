@@ -28,6 +28,10 @@ const Post = new Schema({
     location: {
         type: Object,
         required: false
+    },
+    tags: {
+        type: Array,
+        required: false
     }
 },
 {
