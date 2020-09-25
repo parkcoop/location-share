@@ -4,16 +4,6 @@ import { AuthContext } from '../../context';
 import strings from '../../config/strings';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-
-const Register = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const { signUp } = useContext(AuthContext);
-
-
     const Title = styled.h1`
     font-size: 2em;
     text-align: center;
@@ -43,6 +33,16 @@ const Register = ({ navigation }) => {
         margin: 5px;
 
     `;
+const Register = ({ navigation }) => {
+  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { signUp } = useContext(AuthContext);
+
+
+
   const handleUsernameChange = (input) => {
       setUsername(input.target.value)
   }
@@ -64,23 +64,23 @@ const Register = ({ navigation }) => {
   }
 
   return (
-      <InputContainer>
-        <Input
+      <div>
+        <input
             value={fullName}
             onChange={(e) => handleFullNameChange(e)}
             placeholder={strings.FULLNAME_PLACEHOLDER}
         />
-        <Input
+        <input
             value={username}
             onChange={(e) => handleUsernameChange(e)}
             placeholder={strings.USERNAME_PLACEHOLDER}
         />
-        <Input
+        <input
             value={password}
             onChange={(e) => handlePasswordChange(e)}
             placeholder={strings.PASSWORD_PLACEHOLDER}
         />
-        <Input
+        <input
             value={confirmPassword}
             onChange={(e) => handleConfirmPasswordChange(e)}
             placeholder={strings.CONFIRM_PASSWORD_PLACEHOLDER}
@@ -99,7 +99,7 @@ const Register = ({ navigation }) => {
             // notify.error('SIGNUP', 'Error signing up???')
         }
         }} />
-      </InputContainer>
+      </div>
   )
 }
 

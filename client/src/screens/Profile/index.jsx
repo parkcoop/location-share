@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import AboutSection from './components/AboutSection'
 import Feed from './components/Feed'

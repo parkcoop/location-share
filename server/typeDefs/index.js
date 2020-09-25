@@ -30,7 +30,7 @@ const typeDefs = gql`
         ): AuthPayload
 
         createPost(
-            userId: String!
+            userId: String
             username: String!,
             body: String!
             image: String

@@ -72,6 +72,8 @@ const Authentication = () => {
       <AuthContext.Provider value={authContext}>
         <Login>
         </Login>
+        <Register>
+        </Register>
       </AuthContext.Provider>
         )
 }

@@ -1,8 +1,8 @@
-import React, { useState, useReducer, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { IconButton } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import {UserContext} from '../../../../context'
 import posts from '../../../../utils'
 

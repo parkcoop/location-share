@@ -5,8 +5,6 @@ const SIGNUP = gql`
     signup(username:$username, password:$password, fullName: $fullName) {
         user {
             username
-            password
-            fullName
         }
         token
     }

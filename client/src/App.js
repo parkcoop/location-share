@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import AppRouter from "./AppRouter";
 import logo from './logo.svg';
 import './App.css';
@@ -34,6 +34,11 @@ export default function App() {
   const [user, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
+        case 'CHECK_TOKEN':
+          console.log("WTF")
+          debugger;
+          return action.user
+
         case 'LOGIN':
           // debugger;
           // notify("message", 'nice');
