@@ -47,8 +47,8 @@ const Profile = () => {
   let requestedUser = data && data.getUser
   return (
     <Container>
-        <AboutSection user={requestedUser} />
-        <Feed user={requestedUser} />
+        <AboutSection profile={requestedUser} />
+        <Feed profile={requestedUser} />
     </Container>
   )
 }

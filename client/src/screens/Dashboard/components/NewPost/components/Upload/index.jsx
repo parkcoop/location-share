@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useMutation } from '@apollo/client';
+import styled from 'styled-components';
 
 import gql from 'graphql-tag';
 const UploadMutation = gql`
@@ -9,6 +10,9 @@ const UploadMutation = gql`
   }
 `;
 
+const UploadPreview = styled.img`
+  width: 100%
+`
 
 
 const FileUpload = ({post, updateImage}) => {
@@ -25,7 +29,8 @@ const FileUpload = ({post, updateImage}) => {
         // use the variables option so that you can pass in the file we got above
         variables: { file },
         onCompleted: (data) => {
-          console.log(data)
+          console.log("OMG")
+          window.location.reload(); 
         },
         onError: (error) => console.log(error)
       });
@@ -41,11 +46,11 @@ const FileUpload = ({post, updateImage}) => {
   });
   return (
     <>
-      <div {...getRootProps()} className={`dropzone ${isDragActive && "isActive"}`}>
+      <div {...getRootProps()} className={`dropzone standard-page-module ${isDragActive && "isActive"}`}>
         <input {...getInputProps()} />
-        {isDragActive ? <p>Drop the files here ...</p> : <p>Drag 'n' drop some files here, or click to select files</p>}
+        {isDragActive ? <p>Drop the files here</p> : <p>Upload an image</p>}
       </div>
-      {imageUpload && <img src={imageUpload}></img>}
+      {imageUpload && <UploadPreview src={imageUpload}></UploadPreview>}
     </>
   );
 };

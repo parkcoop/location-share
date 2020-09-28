@@ -38,6 +38,8 @@ const NewPost = () => {
     const submitPost = async () => {
         try {
             const newPost = await createPost({variables: {userId: user.id, username: user.username, body: postBody.body, image: postBody.image}})
+            window.location.reload(); 
+
         }
         catch(err) {
             console.log('shit', err)
@@ -50,6 +52,8 @@ const NewPost = () => {
         <div>
             <TextField
                 value={postBody.body}
+                style={{width:'100%'}}
+                placeholder="What's on your mind?"
                 onChange={(e) => handlePostBody(e)}
             ></TextField>
             <Upload
