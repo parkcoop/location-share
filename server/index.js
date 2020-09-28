@@ -60,21 +60,16 @@ const server = new ApolloServer({
     }
   })
 
-const parker = (req, res, next) => {
-  console.log("were in use")
-  console.log("do we have token in use", req.cookies)
-  res.set("cookie", "OMfwefwefwefwefG")
-  return next()
-}
 app.use(cookieParser())
 app.use(bodyParser.json())
 // app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-app.use(parker)
 
 server.applyMiddleware({ 
   app,
   path: '/graphql',
-  cors: { credentials: true, origin: "http://localhost:3000" } 
+  cors: { 
+    credentials: true, 
+    origin: "http://localhost:3000" } 
 });
 
 app.listen({ port: 4000 }, () =>
