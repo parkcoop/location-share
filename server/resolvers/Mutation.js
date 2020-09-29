@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken')
 const moment = require('moment')
 const { createWriteStream, mkdir, unlinkSync } = require("fs")
 const shortid = require("shortid")
-var cloudinary = require('cloudinary').v2
+const cloudinary = require('cloudinary').v2
 
-const { User, Post } = require('./schemas')
+const { User, Post, Conversation, Message } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
 const signup = async (_, { username, fullName, password }, { res }) => {
     try {
@@ -47,7 +47,7 @@ const signup = async (_, { username, fullName, password }, { res }) => {
     }
 }
 
-const login = async (_, { username, password }, {res}, info) => {
+const login = async (_, { username, password }, {res}) => {
     try {
         const user = await User.findOne({ username:username })
         if (!user) return new Error('No user found')
@@ -95,9 +95,40 @@ const createPost = async (_, { userId, username, body, image }, { pubsub }) => {
     return post
 }
 
-const uploadToCloudinary = async(_, { file }) => {
-    console.log("WHAT")
+const newConversation = async (_, { members }, ___) => {
+    console.log('omg')
+    let existingConversation = await Conversation.find({
+        $and: [
+            { "members.0": { $in: members } },
+            { "members.1": { $in: members } }
+        ]
+    })
+    console.log("OK", existingConversation)
+    if (!existingConversation.length) {
+        let conversation = new Conversation({
+            members,
+            id: shortid.generate()
+        })
+        conversation.save()
+        console.log("SAVING", conversation)
+        return conversation
+    } else return existingConversation[0]
+}
 
+const sendMessage = async (_, { conversationId, content, author }, ___) => {
+    let message = new Message({
+        conversationId,
+        content,
+        author
+    })
+    message.save()
+    return {
+        message: "Message sent",
+        code: 200
+    }
+}
+
+const uploadToCloudinary = async(_, { file }) => {
 
     const storeUpload = async ({ stream, filename, mimetype }) => {
         const id = shortid.generate();
@@ -121,7 +152,6 @@ const uploadToCloudinary = async(_, { file }) => {
         console.log('final return promise', uploadedFile.url)
         try {
             unlinkSync(file.path)
-            //file removed
         } catch(err) {
             console.error(err)
         }
@@ -143,5 +173,7 @@ module.exports = {
     signup,
     login,
     createPost,
-    uploadToCloudinary
+    uploadToCloudinary,
+    newConversation,
+    sendMessage
 }
