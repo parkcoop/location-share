@@ -41,6 +41,10 @@ const typeDefs = gql`
         ) : String!
     }
 
+    type Subscription {
+        newPost: Post
+    }
+
     type AuthPayload {
         token: String
         user: User
@@ -84,6 +88,7 @@ const typeDefs = gql`
     schema {
         query: Query
         mutation: Mutation
+        subscription: Subscription
     }
 
 

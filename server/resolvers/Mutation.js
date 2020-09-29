@@ -74,7 +74,7 @@ const login = async (_, { username, password }, {res}, info) => {
     }
 }
 
-const createPost = async (_, { userId, username, body, image }) => {
+const createPost = async (_, { userId, username, body, image }, { pubsub }) => {
     console.log("nice")
     const user = await User.findOne({ username:username })
     if (!user) return new Error('No user found')
@@ -82,8 +82,7 @@ const createPost = async (_, { userId, username, body, image }) => {
     let post = {
         username,
         body,
-        image,
-        ID: 555
+        image
     }
     let userPost = new Post({
         postedBy: user,
@@ -92,6 +91,7 @@ const createPost = async (_, { userId, username, body, image }) => {
     userPost.save()
     user.posts.push(post)
     user.save()
+    pubsub.publish("NEW_POST", userPost)
     return post
 }
 

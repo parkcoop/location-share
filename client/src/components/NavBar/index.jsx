@@ -49,20 +49,20 @@ const Logo = styled.img`
     height: 50px;
 `
 const NavBar = () => {
-    const [menuAnchor, setMenuAnchor] = useState(false);
-    const dispatch = useContext(AuthContext)
-    const handleMenuClick = e => {
-        e.stopPropagation();
-        setMenuAnchor(e.currentTarget);
-    };
-    const handleCloseMenu = e => {
-        e.stopPropagation();
-        setMenuAnchor(false);
-    };
-    const navigateTo = id => {
-        console.log(id)
-        window.location.href = `/${id}`
-    }
+    // const [menuAnchor, setMenuAnchor] = useState(false);
+    // const dispatch = useContext(AuthContext)
+    // const handleMenuClick = e => {
+    //     e.stopPropagation();
+    //     setMenuAnchor(e.currentTarget);
+    // };
+    // const handleCloseMenu = e => {
+    //     e.stopPropagation();
+    //     setMenuAnchor(false);
+    // };
+    // const navigateTo = id => {
+    //     console.log(id)
+    //     window.location.href = `/${id}`
+    // }
 
     const logout = () => {
         Cookies.remove('token')
@@ -82,16 +82,20 @@ const NavBar = () => {
                         <HomeIcon />
                     </IconButton>
                 </Link>
-                <IconButton
-                    style={navbarIconStyle}
-                    id="messages">
-                    <SendIcon />
-                </IconButton>
-                <IconButton
-                    style={navbarIconStyle}
-                    id="explore">
-                    <ExploreIcon />
-                </IconButton>
+                <Link to="/messages">
+                    <IconButton
+                        style={navbarIconStyle}
+                        id="messages">
+                        <SendIcon />
+                    </IconButton>
+                </Link>
+                <Link to="/explore">
+                    <IconButton
+                        style={navbarIconStyle}
+                        id="explore">
+                        <ExploreIcon />
+                    </IconButton>
+                </Link>
                 <IconButton
                     style={navbarIconStyle}
                     onClick={logout}

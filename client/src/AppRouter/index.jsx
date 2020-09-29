@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { UserContext, AuthContext } from '../context'
 import Authentication from '../screens/Authentication'
 import Dashboard from '../screens/Dashboard'
+import Messages from '../screens/Messages'
 import Profile from '../screens/Profile'
 import NavBar from "../components/NavBar";
 import Cookies from 'js-cookie'
@@ -67,7 +68,7 @@ function AuthenticatedRoutes() {
         <React.Fragment>
             <Route exact path="/" render={() => <Dashboard />} />
             <Route path="/profile/:username" render={() => <Profile />} />
-            <Route path="/messages" render={() => <Dashboard />} />
+            <Route path="/messages" render={() => <Messages />} />
             <Route path="/explore" render={() => <Dashboard />} />
         </React.Fragment>
     )

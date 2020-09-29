@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
+const Subscription = require('./resolvers/Subscription')
+const pubsub = require('./resolvers/pubsub')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
+const http = require('http')
 
 const { GraphQLServer } = require('graphql-yoga')
 const express = require('express');
@@ -33,7 +36,8 @@ mongoose.connect(
 
 const resolvers = {
   Query,
-  Mutation
+  Mutation,
+  Subscription
 }
 
 let app = express();
@@ -43,19 +47,16 @@ app.use('/lol', (req, res) => {
 })
 
 
-
-app.listen(8080)
+const httpServer = http.createServer(app)
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({req, res}) => {
-      res.cookie("PARKER","LOL")
-      console.log("DO WE HAVE", req.cookies)
-      
       return {
         user: {},
-        res
+        res,
+        pubsub
       }
     }
   })
@@ -72,6 +73,8 @@ server.applyMiddleware({
     origin: "http://localhost:3000" } 
 });
 
-app.listen({ port: 4000 }, () =>
+server.installSubscriptionHandlers(httpServer)
+
+httpServer.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 );
