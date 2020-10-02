@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 const PostContainer = styled.div`
     background: white;
     border: 1px solid rgba(var(--ce3,239,239,239),1);
-    width: 100%;
+    width: 90%;
     /* height: 500px; */
     margin-bottom: 30px !important;
 `;
@@ -37,10 +37,12 @@ const PostHeader = styled.div`
     align-items: center;
     justify-content: space-between;
 `;
+const displayNameStyles = {display: "flex", alignItems:'center'};
 const Avatar = styled.img`
     width: 30px;  
     height: 30px;
     border-radius: 25%;
+    margin-right: 7.5px;
 `;
 const ActionBar = styled.div`
     /* width: 100%; */
@@ -84,9 +86,9 @@ const Feed = () => {
 
             {feed && feed.map((post, index)=> {
                 return (
-                    <PostContainer key={index}>
+                    <PostContainer className="standard-page-module" key={index}>
                         <PostHeader>
-                            <Link to={"/profile/" + post.postedBy.username}>
+                            <Link style={displayNameStyles} to={"/profile/" + post.postedBy.username}>
                                 <Avatar src={post.postedBy.avatar} alt=""/>
                                 {post.postedBy.username}
                             </Link>

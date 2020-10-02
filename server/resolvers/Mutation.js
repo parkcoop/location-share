@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken')
 const moment = require('moment')
 const { createWriteStream, mkdir, unlinkSync } = require("fs")
 const shortid = require("shortid")
-var cloudinary = require('cloudinary').v2
+const cloudinary = require('cloudinary').v2
 
-const { User, Post } = require('./schemas')
+const { User, Post, Conversation, Message } = require('./schemas')
 const { signupLog } = require('../utils/loggers')
 const signup = async (_, { username, fullName, password }, { res }) => {
     try {
@@ -26,12 +26,13 @@ const signup = async (_, { username, fullName, password }, { res }) => {
         })
         newUser.save()
         const token = jwt.sign({userId: newUser.id}, process.env.APP_SECRET, { expiresIn: "1d"})
-        res.cookie("token", token, {
-            httpOnly: false,
-            secure: false,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            path: '/'
-        })
+        // res.cookie("token", token, {
+        //     httpOnly: false,
+        //     secure: false,
+        //     maxAge: 1000 * 60 * 60 * 24 * 7,
+        //     path: '/'
+        // })
+        localStorage.setItem('token', token)
         return {
             token,
             user: newUser
@@ -47,7 +48,7 @@ const signup = async (_, { username, fullName, password }, { res }) => {
     }
 }
 
-const login = async (_, { username, password }, {res}, info) => {
+const login = async (_, { username, password }, {res}) => {
     try {
         const user = await User.findOne({ username:username })
         if (!user) return new Error('No user found')
@@ -56,12 +57,13 @@ const login = async (_, { username, password }, {res}, info) => {
             console.log(user)
             const token = jwt.sign({ user }, process.env.APP_SECRET)
             console.log("SIGNING COOKIE")
-            res.cookie("token", token, {
-                httpOnly: false,
-                secure: false,
-                maxAge: 1000 * 60 * 60 * 24 * 7,
-                sameSite: 'None'
-            })
+            // res.cookie("token", token, {
+            //     httpOnly: false,
+            //     secure: false,
+            //     maxAge: 1000 * 60 * 60 * 24 * 7,
+            //     sameSite: true,
+            // })
+            // localStorage.setItem('token', token)
             console.log(token)
             return {
                 token,
@@ -74,7 +76,7 @@ const login = async (_, { username, password }, {res}, info) => {
     }
 }
 
-const createPost = async (_, { userId, username, body, image }) => {
+const createPost = async (_, { userId, username, body, image }, { pubsub }) => {
     console.log("nice")
     const user = await User.findOne({ username:username })
     if (!user) return new Error('No user found')
@@ -82,8 +84,7 @@ const createPost = async (_, { userId, username, body, image }) => {
     let post = {
         username,
         body,
-        image,
-        ID: 555
+        image
     }
     let userPost = new Post({
         postedBy: user,
@@ -92,12 +93,77 @@ const createPost = async (_, { userId, username, body, image }) => {
     userPost.save()
     user.posts.push(post)
     user.save()
+    pubsub.publish("NEW_POST", userPost)
     return post
 }
 
-const uploadToCloudinary = async(_, { file }) => {
-    console.log("WHAT")
+const newConversation = async (_, { members }, ___) => {
+    console.log('omg', members)
+    members = members.split(', ')
+    console.log(members)
+    if (members[0] === members[1]) return;
+    let existingConversation = await Conversation.find({
+        // $or: [
+            // {
+                $and: [
+                    { "members.0.username": { $in: members } },
+                    { "members.1.username": { $in: members } }
+                ]
+            // },
+            // {
+            //     $and: [
+            //         { "members.0.username": { $in: members } },
+            //         { "members.1": { $exists: false} }
+            //     ]
+            // }
 
+        // ]
+    })
+    console.log("OK", existingConversation)
+    if (!existingConversation.length) {
+        console.log("NO EXISTING CONVO", members)
+        let conversationUsers = await User.find({username: { $in: members}})
+
+
+
+        let conversation = new Conversation({
+            members: conversationUsers,
+            lastMessage: {},
+            id: shortid.generate()
+        })
+        // conversation.lastMessage = {
+        //     conversationId: conversation.id,
+        //     content: "",
+        //     author: ""
+        // }
+        console.log("BEFORE WE SAVE", conversation)
+        conversation.save()
+        console.log("SAVING", conversation)
+        return conversation
+    } else return existingConversation[0]
+}
+
+const sendMessage = async (_, { conversationId, content, author }, { pubsub }) => {
+    let message = new Message({
+        conversationId,
+        content,
+        author,
+        timestamp: Date.now()
+    })
+    console.log(conversationId)
+    let conversation = await Conversation.findOne({id: conversationId})
+    conversation.lastMessage = message
+    console.log("WE FOUND", conversation)
+    conversation.save()
+    message.save()
+    pubsub.publish("NEW_MESSAGE", message)
+    return {
+        message: "Message sent",
+        code: 200
+    }
+}
+
+const uploadToCloudinary = async(_, { file }) => {
 
     const storeUpload = async ({ stream, filename, mimetype }) => {
         const id = shortid.generate();
@@ -121,7 +187,6 @@ const uploadToCloudinary = async(_, { file }) => {
         console.log('final return promise', uploadedFile.url)
         try {
             unlinkSync(file.path)
-            //file removed
         } catch(err) {
             console.error(err)
         }
@@ -143,5 +208,7 @@ module.exports = {
     signup,
     login,
     createPost,
-    uploadToCloudinary
+    uploadToCloudinary,
+    newConversation,
+    sendMessage
 }

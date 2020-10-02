@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IconButton } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import { useQuery, useMutation } from '@apollo/client';
-import {UserContext} from '../../../../context'
+import { UserContext } from '../../../../context'
 import posts from '../../../../utils'
 
 
@@ -35,24 +35,29 @@ const UserLine = styled.div`
     justify-content: space-between;
 `
 
-const AboutSection = ({user}) => {
+const AboutSection = ({profile}) => {
+    const user = useContext(UserContext)
     return (
         <AboutMeBanner>
-            <Avatar
-            src={user?.avatar}>
-            </Avatar>
-            <ProfileInfo>
-                <UserLine>
-                    <p>{user?.username}</p>
-                    <button>
-                        Edit Profile
-                    </button>
-                    <IconButton
-                        id="home">
-                        <HomeIcon />
-                    </IconButton>
-                </UserLine>
-            </ProfileInfo>
+            {(profile && user) && (
+                <React.Fragment>
+                    <Avatar
+                        src={profile?.avatar}>
+                    </Avatar>
+                    <ProfileInfo>
+                        <UserLine>
+                            <p>{profile?.username}</p>
+                            <button>
+                                {user.username === profile.username ? "Edit Profile" : "Follow"}
+                            </button>
+                            <IconButton
+                                id="home">
+                                <HomeIcon />
+                            </IconButton>
+                        </UserLine>
+                    </ProfileInfo>
+                </React.Fragment>
+            )}
         </AboutMeBanner>
     )
 }

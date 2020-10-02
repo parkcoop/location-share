@@ -8,6 +8,8 @@ const typeDefs = gql`
         users: [User!]!
         getUser(username: String): User!
         getPosts(username: String, userId: String): [Post]!
+        conversations(username: String!): [Conversation]
+        messages(conversationId: String!): [Message]
     }
 
     type File {
@@ -39,6 +41,21 @@ const typeDefs = gql`
         uploadToCloudinary(
             file: Upload!
         ) : String!
+
+        newConversation(
+            members: String!
+        ) : Conversation!
+
+        sendMessage(
+            conversationId: String!
+            content: String!
+            author: String!
+        ) : Response
+    }
+
+    type Subscription {
+        newPost: Post
+        newMessage: Message
     }
 
     type AuthPayload {
@@ -76,6 +93,19 @@ const typeDefs = gql`
         likes: Int!
     }
 
+    type Conversation {
+        id: ID!
+        members: [User!]!
+        lastMessage: Message
+    }
+
+    type Message {
+        author: ID!
+        content: String!
+        conversationId: ID!
+        timestamp: Date!
+    }
+
     type Location {
         city: String!
         country: String!
@@ -84,6 +114,7 @@ const typeDefs = gql`
     schema {
         query: Query
         mutation: Mutation
+        subscription: Subscription
     }
 
 

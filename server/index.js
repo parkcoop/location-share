@@ -1,11 +1,16 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const { GraphQLScalarType } = require('graphql');
 
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
+const Subscription = require('./resolvers/Subscription')
+const scalars = require('./resolvers/scalars')
+const pubsub = require('./resolvers/pubsub')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
-
+const http = require('http')
+const moment = require('moment')
 const { GraphQLServer } = require('graphql-yoga')
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
@@ -30,10 +35,20 @@ mongoose.connect(
     if(error) console.log('Failed to connect to database, y tho:', error);
 })
 
-
-const resolvers = {
+console.log("INJECTING", ...scalars)
+  const resolvers = {
+  Date: new GraphQLScalarType({
+    name: "Image",
+    description: "Unix timestamp for posts, messages, etc",
+    parseValue: value => moment(value),
+    serialize: value => moment(value),
+    parseLiteral(ast) {
+        console.log(ast)
+    }
+  }),
   Query,
-  Mutation
+  Mutation,
+  Subscription
 }
 
 let app = express();
@@ -43,40 +58,34 @@ app.use('/lol', (req, res) => {
 })
 
 
-
-app.listen(8080)
+const httpServer = http.createServer(app)
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({req, res}) => {
-      res.cookie("PARKER","LOL")
-      console.log("DO WE HAVE", req.cookies)
-      
       return {
         user: {},
-        res
+        res,
+        pubsub
       }
     }
   })
 
-const parker = (req, res, next) => {
-  console.log("were in use")
-  console.log("do we have token in use", req.cookies)
-  res.set("cookie", "OMfwefwefwefwefG")
-  return next()
-}
 app.use(cookieParser())
 app.use(bodyParser.json())
 // app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-app.use(parker)
 
 server.applyMiddleware({ 
   app,
   path: '/graphql',
-  cors: { credentials: true, origin: "http://localhost:3000" } 
+  cors: { 
+    credentials: true, 
+    origin: "http://localhost:3000" } 
 });
 
-app.listen({ port: 4000 }, () =>
+server.installSubscriptionHandlers(httpServer)
+
+httpServer.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 );

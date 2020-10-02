@@ -92,6 +92,7 @@ const GET_USERS = gql`
 const Stories = () => {
   const { loading, error, data } = useQuery(GET_USERS);
   let allUsers = data && data?.users
+  console.log("ALL USERS!", data?.users)
   return (
     <StoryContainer>
       <AllStories>
