@@ -143,7 +143,7 @@ const newConversation = async (_, { members }, ___) => {
     } else return existingConversation[0]
 }
 
-const sendMessage = async (_, { conversationId, content, author }, ___) => {
+const sendMessage = async (_, { conversationId, content, author }, { pubsub }) => {
     let message = new Message({
         conversationId,
         content,
@@ -156,6 +156,7 @@ const sendMessage = async (_, { conversationId, content, author }, ___) => {
     console.log("WE FOUND", conversation)
     conversation.save()
     message.save()
+    pubsub.publish("NEW_MESSAGE", message)
     return {
         message: "Message sent",
         code: 200

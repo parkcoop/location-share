@@ -55,6 +55,7 @@ const typeDefs = gql`
 
     type Subscription {
         newPost: Post
+        newMessage: Message
     }
 
     type AuthPayload {

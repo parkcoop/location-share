@@ -1,23 +1,21 @@
-function newPostSubscribe(parent, args, context, info) {
-  return context.pubsub.asyncIterator("NEW_POST")
-}
 
 const newPost = {
-    subscribe: newPostSubscribe,
+    subscribe: (parent, args, context, info) => context.pubsub.asyncIterator("NEW_POST"),
     resolve: payload => {
         console.log("WHOOOAAA", payload)
         return payload
     }
 }
 
-// const newMessage = {
-//     subscribe: newMessageSubscribe,
-//     resolve: payload => {
-//         return payload
-//     }
-// }
+const newMessage = {
+    subscribe: (parent, args, context, info) => context.pubsub.asyncIterator("NEW_MESSAGE"),
+    resolve: payload => {
+        console.log("LEAVE ME ALONE", payload)
+        return payload
+    }
+}
 
 module.exports = {
     newPost,
-    // newMessage
+    newMessage
 }
