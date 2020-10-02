@@ -15,6 +15,10 @@ const Message = new Schema({
         type: String,
         ref: 'Conversation',
         required: true
+    },
+    timestamp: {
+        type: Number,
+        required: false
     }
 },
 {

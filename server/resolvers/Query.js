@@ -40,20 +40,28 @@ const getPosts = async (_, { username, userId }, context, info) =>{
 
 }
 
-const conversations = async (_, { userId }, context, info) => Conversation.find({
-    members: userId
-}, 
+const conversations = async (_, { username }, context, info) => {
+    console.log(username)
+    return Conversation.find({
+        $or: [
+            { "members.0.username": username },
+            { "members.1.username": username }
+        ]
+    }, 
     (error, conversations) => {
+        console.log("H talks to", conversations)
         if (error) throw new Error(error)
         return conversations
     }
-)
+)}
 
-const messages = async (_, { conversationId }, context, info) => Message.find({conversationId}, 
+const messages = async (_, { conversationId }, context, info) => {
+    console.log("LOOKING UP", conversationId)
+    return Message.find({conversationId}, 
     (error, messages) => {
         if (error) throw new Error(error)
         return messages
-})
+})}
 
 
 module.exports = {

@@ -1,14 +1,16 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const { GraphQLScalarType } = require('graphql');
 
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
 const Subscription = require('./resolvers/Subscription')
+const scalars = require('./resolvers/scalars')
 const pubsub = require('./resolvers/pubsub')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
 const http = require('http')
-
+const moment = require('moment')
 const { GraphQLServer } = require('graphql-yoga')
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
@@ -33,8 +35,17 @@ mongoose.connect(
     if(error) console.log('Failed to connect to database, y tho:', error);
 })
 
-
-const resolvers = {
+console.log("INJECTING", ...scalars)
+  const resolvers = {
+  Date: new GraphQLScalarType({
+    name: "Image",
+    description: "Unix timestamp for posts, messages, etc",
+    parseValue: value => moment(value),
+    serialize: value => moment(value),
+    parseLiteral(ast) {
+        console.log(ast)
+    }
+  }),
   Query,
   Mutation,
   Subscription

@@ -10,6 +10,11 @@ const Conversation = new Schema({
     members: {
         type: Array,
         required: true
+    },
+    lastMessage: {
+        type: Object,
+        required: false,
+        default: {}
     }
 },
 {

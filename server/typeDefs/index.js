@@ -8,7 +8,7 @@ const typeDefs = gql`
         users: [User!]!
         getUser(username: String): User!
         getPosts(username: String, userId: String): [Post]!
-        conversations(userId: String!): [Conversation]
+        conversations(username: String!): [Conversation]
         messages(conversationId: String!): [Message]
     }
 
@@ -43,7 +43,7 @@ const typeDefs = gql`
         ) : String!
 
         newConversation(
-            members: [String]!
+            members: String!
         ) : Conversation!
 
         sendMessage(
@@ -94,13 +94,15 @@ const typeDefs = gql`
 
     type Conversation {
         id: ID!
-        members: [ID!]!
+        members: [User!]!
+        lastMessage: Message
     }
 
     type Message {
         author: ID!
         content: String!
         conversationId: ID!
+        timestamp: Date!
     }
 
     type Location {
